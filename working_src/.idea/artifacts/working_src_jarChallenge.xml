@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="working_src:jarChallenge">
+    <output-path>$PROJECT_DIR$/../../Java Archives</output-path>
+    <root id="archive" name="working_src.jar">
+      <element id="module-output" name="working_src" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../archive/working_src.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
