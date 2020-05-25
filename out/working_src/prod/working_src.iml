@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_14">
+    <output url="file://$MODULE_DIR$/../out/working_src/prod" />
+    <output-test url="file://$MODULE_DIR$/../out/working_src/test" />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/.idea" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Abstraction" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/ArrayLists" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Arrays" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/BankAccount" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/BankingApplication" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Calculator" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Class_Structures" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/ClassInheritancePractice" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/CodeWarriors" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Collections" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/com" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Compare" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Functions" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Generics" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/ImportantPractice" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Inheritance" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/LinkedList_Old" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Listener" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/NewCollections" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/OOP_Master_Challenge" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/PackageChallenge" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/PhoneClass" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Playground" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Polymorphism" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Printer" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/readIntChallenge" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/RoomComposition" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/sandbox" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Scoping" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/ScopingPractice" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/VipCustomer" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Math" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/ProgrammingI" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Project I" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Projects" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Sudoku" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Strings" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Stacks" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Subnetting" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Library" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Advanced Concepts" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/AdvancedConcepts" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/PlayListChallenge2" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/PracticeTest" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Interfaces" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/PlayListChallenge" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/MusicLibrary" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/LinkedList" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Generics_Refresher" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Maps" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/GraphicPrograms" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Sets" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/StockList" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Threads" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Threads2" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/ThreadConcurrency" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/ThreadTests" isTestSource="false" />
+    </content>
+    <orderEntry type="jdk" jdkName="14" jdkType="JavaSDK" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="working_src" level="project" />
+    <orderEntry type="library" name="working_src1" level="project" />
+  </component>
+</module>
