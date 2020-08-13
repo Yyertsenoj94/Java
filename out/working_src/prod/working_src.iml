@@ -63,6 +63,8 @@
       <sourceFolder url="file://$MODULE_DIR$/Threads2" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/ThreadConcurrency" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/ThreadTests" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/3DTests" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Test3D" isTestSource="false" />
     </content>
     <orderEntry type="jdk" jdkName="14" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
