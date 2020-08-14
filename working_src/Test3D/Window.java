@@ -7,7 +7,7 @@ public class Window {
             private Graphics graphics;
             private int width;
             private int height;
-            private float pointSize;
+            private int pointSize;
             private int centerX;
             private int centerY;
             private Color drawColor;
@@ -20,7 +20,7 @@ public class Window {
                 graphics = panel.getGraphics();
                 centerX = (int) (width / 2);
                 centerY = (int) (height / 2);
-                pointSize = 8.0f;
+                pointSize = 8;
                 setBackgroundColor(Color.BLACK);
             }
 
@@ -32,7 +32,7 @@ public class Window {
                 this.drawColor = color;
             }
 
-            public void setPointSize(float size){
+            public void setPointSize(int size){
                 this.pointSize = size;
             }
 
@@ -57,7 +57,10 @@ public class Window {
                 graphics.fillRect(0, 0, width, height);
                 drawXAxis();
                 drawYAxis();
+            }
 
+            public void pause(int milliseconds){
+                panel.sleep(milliseconds);
             }
 
             public DrawingPanel getPanel(){

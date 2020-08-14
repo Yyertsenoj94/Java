@@ -25,17 +25,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8bdd2d51-fcd8-401d-bbfa-694fcb1fa5bc" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Test3D/DrawingPanel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Test3D/Program.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Test3D/T_Matrix2D.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Test3D/Triangle.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Test3D/Vertex.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Test3D/Window.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../out/working_src/prod/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../out/working_src/prod/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../out/working_src/prod/working_src.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../out/working_src/prod/working_src.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../out/working_src/prod/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../out/working_src/prod/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Test3D/R_Matrix2D.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/working_src.iml" beforeDir="false" afterPath="$PROJECT_DIR$/working_src.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Test3D/Program.java" beforeDir="false" afterPath="$PROJECT_DIR$/Test3D/Program.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -208,7 +200,8 @@
       <workItem from="1590458430636" duration="978000" />
       <workItem from="1590505527640" duration="402000" />
       <workItem from="1597258669156" duration="300000" />
-      <workItem from="1597258983036" duration="13976000" />
+      <workItem from="1597258983036" duration="14243000" />
+      <workItem from="1597360744450" duration="1837000" />
     </task>
     <servers />
   </component>
@@ -259,25 +252,25 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="299" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1589508335444" />
-    <state width="1319" height="377" key="GridCell.Tab.0.bottom" timestamp="1597284066408">
+    <state width="1760" height="377" key="GridCell.Tab.0.bottom" timestamp="1597284369367">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1319" height="377" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1597284066408" />
+    <state width="1760" height="377" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1597284369367" />
     <state width="1877" height="451" key="GridCell.Tab.0.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1590462126636" />
-    <state width="1319" height="377" key="GridCell.Tab.0.center" timestamp="1597284066408">
+    <state width="1760" height="377" key="GridCell.Tab.0.center" timestamp="1597284369367">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1319" height="377" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1597284066408" />
+    <state width="1760" height="377" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1597284369367" />
     <state width="1877" height="451" key="GridCell.Tab.0.center/0.0.1920.1080@0.0.1920.1080" timestamp="1590462126636" />
-    <state width="1319" height="377" key="GridCell.Tab.0.left" timestamp="1597284066408">
+    <state width="1760" height="377" key="GridCell.Tab.0.left" timestamp="1597284369367">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1319" height="377" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1597284066408" />
+    <state width="1760" height="377" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1597284369367" />
     <state width="1877" height="451" key="GridCell.Tab.0.left/0.0.1920.1080@0.0.1920.1080" timestamp="1590462126636" />
-    <state width="1319" height="377" key="GridCell.Tab.0.right" timestamp="1597284066408">
+    <state width="1760" height="377" key="GridCell.Tab.0.right" timestamp="1597284369367">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1319" height="377" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1597284066408" />
+    <state width="1760" height="377" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1597284369367" />
     <state width="1877" height="451" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1590462126636" />
     <state width="1877" height="451" key="GridCell.Tab.1.bottom" timestamp="1590462126636">
       <screen x="0" y="0" width="1920" height="1080" />
