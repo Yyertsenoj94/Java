@@ -8,12 +8,31 @@ public class Program {
     static final Scanner scanner = new Scanner(System.in);
     int pointsCounter = 0;
     public static void main(String[] args) {
+        Window window = new Window(800, 800);
+        window.setPointSize(200);
+        float[] point = {20, 20, 1};
+
+        window.setBackgroundColor(Color.BLACK);
+        window.setDrawColor(Color.GREEN);
+        window.clearScreen();
+        window.drawPoint2D(point);
+
+        T_Matrix2D tMatrix = new T_Matrix2D();
+        System.out.println("Ready?");
+        scanner.nextFloat();
+
+        tMatrix.setTranslation(100, 100);
+        point = tMatrix.translateVertex(point);
+        window.clearScreen();
+        window.drawPoint2D(point);
+
+
+        /*
         float[][] outerPoints = new float[1440][3];
         float[][] innerPoints = new float[1440][3];
         float[][] triangleVertices = {{0, 0, 1},
                 {600, 0, 1},
                 {100, 500, 1}};
-
 
         int start;
         double degrees = 1;
@@ -74,6 +93,11 @@ public class Program {
             window.pause(3);
             value1++;
         }
+         */
+
+
+
+
         /*
         while(value1 < value2){
 

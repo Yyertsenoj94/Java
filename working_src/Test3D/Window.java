@@ -3,8 +3,10 @@ package Test3D;
 import java.awt.*;
 
 public class Window {
+
             private DrawingPanel panel;
             private Graphics graphics;
+
             private int width;
             private int height;
             private int pointSize;
