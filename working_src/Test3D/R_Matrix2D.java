@@ -10,7 +10,9 @@ public class R_Matrix2D {
 
         }
 
-        public float[] rotateVertex(float[] vertex){
+        public float[] rotateVertex(float[] vertex, float degrees){
+                setTranslation(degrees);
+
                 float[] v_old = vertex;
                 float[] v_new = new float[3];
 
@@ -20,10 +22,18 @@ public class R_Matrix2D {
                         }
                 }
 
+                resetToIdentity();
                 return v_new;
         }
 
-        public void setTranslation(float degrees){
+        public void resetToIdentity(){
+                matrix[0][0] = 1.0f;
+                matrix[1][0] = 0.0f;
+                matrix[0][1] = 0.0f;
+                matrix[1][1] = 1.0f;
+        }
+
+        private void setTranslation(float degrees){
                 double radians = degrees * DEGREES_TO_RADIANS;
                 matrix[0][0] = (float) Math.cos(radians);
                 matrix[1][0] = (float) -Math.sin(radians);

@@ -1,12 +1,14 @@
 package Test3D;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 public class Window {
 
             private DrawingPanel panel;
             private Graphics graphics;
-
+            private boolean[] keys = new boolean[1024];
             private int width;
             private int height;
             private int pointSize;
@@ -23,7 +25,12 @@ public class Window {
                 centerX = (int) (width / 2);
                 centerY = (int) (height / 2);
                 pointSize = 8;
+                setDrawColor(Color.WHITE);
                 setBackgroundColor(Color.BLACK);
+                initKeyListeners();
+                for(boolean key: keys){
+                    key = false; // initialize all values to false.
+                }
             }
 
             public void setBackgroundColor(Color color){
@@ -54,11 +61,39 @@ public class Window {
                 graphics.drawLine(width / 2, 0, width / 2, height);
             }
 
+            private void initKeyListeners(){
+                panel.addKeyListener(new KeyListener() {
+                    @Override
+                    public void keyTyped(KeyEvent e) {
+                        //DO NOTHING
+                    }
+
+                    @Override
+                    public void keyPressed(KeyEvent e) {
+                        keys[e.getKeyCode()] = true;
+                    }
+
+                    @Override
+                    public void keyReleased(KeyEvent e) {
+                        keys[e.getKeyCode()] = false;
+                    }
+                });
+            }
+
+            public boolean[] getKeys(){
+                return keys;
+            }
+
+            public void close(){
+                panel.close();
+            }
+
             public void clearScreen(){
                 graphics.setColor(backgroundColor);
                 graphics.fillRect(0, 0, width, height);
-                drawXAxis();
                 drawYAxis();
+                drawXAxis();
+
             }
 
             public void pause(int milliseconds){
@@ -76,7 +111,7 @@ public class Window {
                 int y1 = (int) (centerY - triangle.getVertices()[0][1]);
                 int y2 = (int) (centerY - triangle.getVertices()[1][1]);
                 int y3 = (int) (centerY - triangle.getVertices()[2][1]);
-
+                initDrawColor();
                 graphics.drawLine(x1, y1, x2, y2);
                 graphics.drawLine(x2, y2, x3, y3);
                 graphics.drawLine(x3, y3, x1, y1);

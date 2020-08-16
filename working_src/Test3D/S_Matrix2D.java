@@ -1,20 +1,27 @@
 package Test3D;
 
 public class S_Matrix2D {
-        float[][] matrix = {    {0.0f, 0.0f, 0.0f},
-                                {0.0f, 0.0f, 0.0f},
+        float[][] matrix = {    {1.0f, 0.0f, 0.0f},
+                                {0.0f, 1.0f, 0.0f},
                                 {0.0f, 0.0f, 1.0f}};
 
         public S_Matrix2D(){
 
         }
 
-        public void setScale(float xScale, float yScale){
+        private void setScale(float xScale, float yScale){
                 matrix[0][0] = xScale;
                 matrix[1][1] = yScale;
         }
 
-        public float[] scaleVertex(float[] vertex){
+        private void resetToIdentity(){
+                matrix[0][0] = 1.0f;
+                matrix[1][1] = 1.0f;
+        }
+
+        public float[] scaleVertex(float[] vertex, float xScale, float yScale){
+                setScale(xScale, yScale);
+
                 float[] v_new = new float[3];
 
                 for(int i = 0; i < vertex.length; i++){
@@ -23,6 +30,7 @@ public class S_Matrix2D {
                         }
                 }
 
+                resetToIdentity();
                 return v_new;
         }
 

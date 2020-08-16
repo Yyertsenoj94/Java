@@ -5,7 +5,7 @@ import java.awt.*;
 public class Triangle {
         private final float[][] vertices;
         public Triangle(float[][] vertices){
-            this.vertices = vertices;
+            this.vertices = vertices.clone();
         }
 
         public void drawTriangle(Color color, Window window){

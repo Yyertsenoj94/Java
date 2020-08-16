@@ -22,12 +22,18 @@ public class T_Matrix2D {
     public T_Matrix2D(){
     }
 
-         public void setTranslation(float xChange, float yChange){
+         private void setTranslation(float xChange, float yChange){
              this.matrix[2][0] = xChange; //Catch the delta x
              this.matrix[2][1] = yChange; //Catch the delta y;
          }
 
-        public float[] translateVertex(float[] vertex){
+    private void resetToIdentity(){
+            matrix[2][0] = 0.0f;
+            matrix[2][1] = 0.0f;
+    }
+
+    public float[] translateVertex(float[] vertex, float xMovement, float yMovement){
+            setTranslation(xMovement, yMovement);
              float[] vOld = vertex;
              float[] vNew = new float[3];
 
@@ -36,7 +42,7 @@ public class T_Matrix2D {
                     vNew[i] += vOld[j] * matrix[j][i];
                 }
             }
-
+            resetToIdentity();
             return vNew;
         }
 
