@@ -3,8 +3,8 @@ package Test3D;
 import java.awt.*;
 
 public class Triangle {
-        private final float[][] vertices;
-        public Triangle(float[][] vertices){
+        private final double[][] vertices;
+        public Triangle(double[][] vertices){
             this.vertices = vertices.clone();
         }
 
@@ -12,7 +12,7 @@ public class Triangle {
                 window.setDrawColor(color);
         }
 
-        public float[][] getVertices(){
+        public double[][] getVertices(){
                 return vertices;
         }
 }

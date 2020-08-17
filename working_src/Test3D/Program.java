@@ -1,5 +1,6 @@
 package Test3D;
 
+
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.*;
@@ -9,12 +10,110 @@ public class Program {
     static final Scanner scanner = new Scanner(System.in);
     int pointsCounter = 0;
     public static void main(String[] args) {
+        Matrix2D tMatrix= new Matrix2D();
+        Matrix2D sMatrix = new Matrix2D();
+        Matrix2D rMatrix = new Matrix2D();
+        Matrix2D matrix = new Matrix2D();
+
+
+        Window window = new Window(800, 500);
+        window.clearScreen();
+
+        double incrementScale = .02f;
+        double incrementMove = 5.0f;
+        double incrementDegrees = 1.0f;
+
+        double degrees = 0.0f;
+        double horizontalMovement = 0.0f;
+        double verticalMovement = 0.0f;
+        double scale = 1.0f;
+
+        double[][] triangleVertices = {  {0.0f, 0.0f, 1.0f},
+                {100.0f, 0.0f, 1.0f},
+                {100.0f, 200.0f, 1.0f}};
+
+        Triangle triangle = new Triangle(triangleVertices);
+        window.drawTriangle(triangle);
+        window.setDrawColor(Color.RED);
+        while (true){
+
+            if(window.getKeys()[KeyEvent.VK_W]){
+                verticalMovement += incrementMove;
+            }
+
+            if(window.getKeys()[KeyEvent.VK_A]){
+                horizontalMovement -= incrementMove;
+            }
+
+            if(window.getKeys()[KeyEvent.VK_S]){
+                verticalMovement -= incrementMove;
+            }
+
+            if(window.getKeys()[KeyEvent.VK_D]){
+                horizontalMovement += incrementMove;
+            }
+
+
+            if(window.getKeys()[KeyEvent.VK_LEFT]){
+                degrees += incrementDegrees;
+            }
+
+            if(window.getKeys()[KeyEvent.VK_RIGHT]){
+                degrees -= incrementDegrees;
+            }
+
+            if(window.getKeys()[KeyEvent.VK_ESCAPE]) {
+                window.close();
+            }
+
+            if(window.getKeys()[KeyEvent.VK_UP]) {
+                scale += incrementScale;
+            }
+
+            if(window.getKeys()[KeyEvent.VK_DOWN]){
+                scale -= incrementScale;
+            }
+
+
+            tMatrix = tMatrix.setTranslationMatrix(horizontalMovement, verticalMovement);
+            sMatrix = sMatrix.setScaleMatrix(scale, scale);
+            rMatrix = rMatrix.setRotationMatrix(degrees);
+
+            System.out.println("base matrix has " + matrix.getRows() + " rows, and has " + matrix.getColumns() + " columns.");
+            System.out.println("Printing T Matrix...");
+            Matrix.printMatrix(tMatrix);
+
+            System.out.println("Printing identity matrix");
+            Matrix.printMatrix(matrix);
+            System.out.println("Combining identity and Translate");
+            matrix = matrix.getCompositionMatrix(matrix, tMatrix);
+
+            System.out.println("printing combined matrix");
+            Matrix.printMatrix(matrix);
+            scanner.nextFloat();
+            window.clearScreen();
+            window.drawTriangle(triangle);
+            triangle = new Triangle(triangleVertices);
+
+            for(int i = 0; i < triangle.getVertices().length; i++)
+            {
+                triangle.getVertices()[i] = matrix.transformVertex(triangle.getVertices()[i]);
+            }
+
+            System.out.println("Triangle vertex 1: " + triangle.getVertices()[0][0] + ", " + triangle.getVertices()[0][1]);
+            System.out.println("Triangle vertex 2: " + triangle.getVertices()[1][0] + ", " + triangle.getVertices()[1][1]);
+            System.out.println("Triangle vertex 3: " + triangle.getVertices()[2][0] + ", " + triangle.getVertices()[2][1]);
+            window.pause(50);
+        }
+
+        /*
             Window window = new Window(800, 500);
             window.clearScreen();
 
             R_Matrix2D rMatrix = new R_Matrix2D();
             T_Matrix2D tMatrix = new T_Matrix2D();
             S_Matrix2D sMatrix = new S_Matrix2D();
+
 
             float incrementScale = .02f;
             float incrementMove = 5.0f;
@@ -80,15 +179,15 @@ public class Program {
                 window.clearScreen();
                 window.drawTriangle(triangle);
                 triangle = new Triangle(triangleVertices);
-                /*
+
                 System.out.println("Triangle vertex 1: " + triangle.getVertices()[0][0] + ", " + triangle.getVertices()[0][1]);
                 System.out.println("Triangle vertex 2: " + triangle.getVertices()[1][0] + ", " + triangle.getVertices()[1][1]);
                 System.out.println("Triangle vertex 3: " + triangle.getVertices()[2][0] + ", " + triangle.getVertices()[2][1]);
-                */
                 window.pause(50);
             }
 
 
+*/
 
     /*
         Window window = new Window(800, 800);
