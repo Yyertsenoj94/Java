@@ -82,6 +82,7 @@ public class R_Matrix3D {
     }
 
     public static R_Matrix3D getCompositionMatrix(R_Matrix3D matrix1, R_Matrix3D matrix2){
+
         float[][] composedArray = new float[4][4];
 
         for(int i = 0; i < matrix1.getColumns(); i++) {

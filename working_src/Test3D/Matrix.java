@@ -58,8 +58,6 @@ public abstract class Matrix {
 
     abstract void setToIdentity();
 
-    abstract Matrix getCompositionMatrix(Matrix matrix1, Matrix matrix2);
-
     abstract Matrix getTransposedMatrix(Matrix matrix);
 
 }

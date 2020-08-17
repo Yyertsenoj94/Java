@@ -15,7 +15,6 @@ public class Program {
         Matrix2D rMatrix = new Matrix2D();
         Matrix2D matrix = new Matrix2D();
 
-
         Window window = new Window(800, 500);
         window.clearScreen();
 
@@ -53,7 +52,6 @@ public class Program {
                 horizontalMovement += incrementMove;
             }
 
-
             if(window.getKeys()[KeyEvent.VK_LEFT]){
                 degrees += incrementDegrees;
             }
@@ -79,20 +77,11 @@ public class Program {
             sMatrix = sMatrix.setScaleMatrix(scale, scale);
             rMatrix = rMatrix.setRotationMatrix(degrees);
 
-            System.out.println("base matrix has " + matrix.getRows() + " rows, and has " + matrix.getColumns() + " columns.");
-            System.out.println("Printing T Matrix...");
-            Matrix.printMatrix(tMatrix);
+            matrix = matrix.combine3Matrices(sMatrix, rMatrix, tMatrix);
 
-            System.out.println("Printing identity matrix");
-            Matrix.printMatrix(matrix);
-            System.out.println("Combining identity and Translate");
-            matrix = matrix.getCompositionMatrix(matrix, tMatrix);
-
-            System.out.println("printing combined matrix");
-            Matrix.printMatrix(matrix);
-            scanner.nextFloat();
             window.clearScreen();
             window.drawTriangle(triangle);
+
             triangle = new Triangle(triangleVertices);
 
             for(int i = 0; i < triangle.getVertices().length; i++)
@@ -100,10 +89,12 @@ public class Program {
                 triangle.getVertices()[i] = matrix.transformVertex(triangle.getVertices()[i]);
             }
 
-            System.out.println("Triangle vertex 1: " + triangle.getVertices()[0][0] + ", " + triangle.getVertices()[0][1]);
-            System.out.println("Triangle vertex 2: " + triangle.getVertices()[1][0] + ", " + triangle.getVertices()[1][1]);
-            System.out.println("Triangle vertex 3: " + triangle.getVertices()[2][0] + ", " + triangle.getVertices()[2][1]);
             window.pause(50);
+
+            rMatrix = new Matrix2D();
+            tMatrix = new Matrix2D();
+            matrix = new Matrix2D();
+            sMatrix = new Matrix2D();
         }
 
         /*

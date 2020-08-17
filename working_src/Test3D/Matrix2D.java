@@ -61,7 +61,15 @@ public class Matrix2D extends Matrix {
         return super.matrix;
     }
 
-    public Matrix2D getCompositionMatrix(Matrix matrix1, Matrix matrix2){
+    public Matrix2D combine3Matrices(Matrix matrix1, Matrix matrix2, Matrix matrix3){
+        Matrix2D combined = new Matrix2D();
+        combined = combine2Matrices(matrix1, matrix2);
+        combined = combine2Matrices(combined, matrix3);
+
+        return combined;
+    }
+    public Matrix2D combine2Matrices(Matrix matrix1, Matrix matrix2){
+
         double[][] composedArray = new double[matrix1.getRows()][matrix1.getColumns()];
 
         for(int i = 0; i < matrix1.getColumns(); i++) {
@@ -97,9 +105,7 @@ public class Matrix2D extends Matrix {
     }
 
     public void setToIdentity(){
-
         super.set2DMatrix();
-
     }
     /*
     float[][] matrix = {{1.0f, 0.0f, 0.0f},
