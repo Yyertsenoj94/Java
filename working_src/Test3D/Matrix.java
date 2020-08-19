@@ -21,6 +21,7 @@ public abstract class Matrix {
 
     }
 
+
     public void set3DMatrix(){
         this.matrix = matrix3D;
         columns = 4;

@@ -14,19 +14,22 @@ public class Program {
         Matrix2D sMatrix = new Matrix2D();
         Matrix2D rMatrix = new Matrix2D();
         Matrix2D matrix = new Matrix2D();
+        boolean traceOn = false;
+        double[][] array = new double[8000][8000];
 
         Window window = new Window(800, 500);
         window.clearScreen();
+        window.setPointSize(4);
 
         double incrementScale = .02f;
         double incrementMove = 5.0f;
-        double incrementDegrees = 1.0f;
+        double incrementDegrees = 5.0f;
 
         double degrees = 0.0f;
         double horizontalMovement = 0.0f;
         double verticalMovement = 0.0f;
         double scale = 1.0f;
-
+        int counter = 0;
         double[][] triangleVertices = {  {0.0f, 0.0f, 1.0f},
                 {100.0f, 0.0f, 1.0f},
                 {100.0f, 200.0f, 1.0f}};
@@ -34,12 +37,15 @@ public class Program {
         Triangle triangle = new Triangle(triangleVertices);
         window.drawTriangle(triangle);
         window.setDrawColor(Color.RED);
+
         while (true){
 
             if(window.getKeys()[KeyEvent.VK_W]){
                 verticalMovement += incrementMove;
             }
-
+            if(window.getKeys()[KeyEvent.VK_T]){
+               traceOn = !traceOn;
+            }
             if(window.getKeys()[KeyEvent.VK_A]){
                 horizontalMovement -= incrementMove;
             }
@@ -80,7 +86,6 @@ public class Program {
             matrix = matrix.combine3Matrices(sMatrix, rMatrix, tMatrix);
 
             window.clearScreen();
-            window.drawTriangle(triangle);
 
             triangle = new Triangle(triangleVertices);
 
@@ -89,12 +94,25 @@ public class Program {
                 triangle.getVertices()[i] = matrix.transformVertex(triangle.getVertices()[i]);
             }
 
+            if(traceOn){
+                array[counter] = triangle.getVertices()[2];
+                array[counter] = triangle.getVertices()[2];
+                array[counter] = triangle.getVertices()[2];
+            }
+
+            window.drawTriangle(triangle);
+
+            for(double[] p: array) {
+                window.drawPoint2D(p);
+            }
+
             window.pause(50);
 
             rMatrix = new Matrix2D();
             tMatrix = new Matrix2D();
             matrix = new Matrix2D();
             sMatrix = new Matrix2D();
+            counter++;
         }
 
         /*

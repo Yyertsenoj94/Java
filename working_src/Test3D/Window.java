@@ -45,7 +45,7 @@ public class Window {
                 this.pointSize = size;
             }
 
-            public void drawPoint2D(float[] point){
+            public void drawPoint2D(double[] point){
                 graphics.setColor(drawColor);
                 graphics.fillOval((int) (centerX + point[0] - (pointSize / 2)), (int) (centerY - point[1] - (pointSize / 2)), (int) pointSize, (int) pointSize);
             }
@@ -53,7 +53,6 @@ public class Window {
             public void drawXAxis(){
                 initDrawColor();
                 graphics.drawLine(0, (height / 2), width, (height/2));
-
             }
 
             public void drawYAxis(){
