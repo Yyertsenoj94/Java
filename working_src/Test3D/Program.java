@@ -10,85 +10,150 @@ public class Program {
     static final Scanner scanner = new Scanner(System.in);
     int pointsCounter = 0;
     public static void main(String[] args) {
+
+        Matrix3D pm = new Matrix3D();
+        pm = pm.getPerspectiveMatrix(1000);
+
+        /*
         Matrix2D tMatrix= new Matrix2D();
         Matrix2D sMatrix = new Matrix2D();
         Matrix2D rMatrix = new Matrix2D();
         Matrix2D matrix = new Matrix2D();
+       */
+
+        Matrix3D tMatrix= new Matrix3D();
+        Matrix3D sMatrix = new Matrix3D();
+        Matrix3D rzMatrix = new Matrix3D();
+        Matrix3D rxMatrix = new Matrix3D();
+        Matrix3D ryMatrix = new Matrix3D();
+        Matrix3D rMatrix = new Matrix3D();
+        Matrix3D matrix = new Matrix3D();
+
         boolean traceOn = false;
+
         double[][] array = new double[8000][8000];
 
         Window window = new Window(800, 500);
         window.clearScreen();
-        window.setPointSize(4);
+
+        Cube3D cube = new Cube3D();
+
+        cube.drawCube(window);
 
         double incrementScale = .02f;
         double incrementMove = 5.0f;
-        double incrementDegrees = 5.0f;
+        double incrementDegrees = 1.75f;
 
-        double degrees = 0.0f;
+        double zDegrees = 0.0f;
+        double xDegrees = 0.0f;
+        double yDegrees = 0.0f;
         double horizontalMovement = 0.0f;
         double verticalMovement = 0.0f;
         double scale = 1.0f;
         int counter = 0;
+
+        /*
         double[][] triangleVertices = {  {0.0f, 0.0f, 1.0f},
                 {100.0f, 0.0f, 1.0f},
                 {100.0f, 200.0f, 1.0f}};
 
+
         Triangle triangle = new Triangle(triangleVertices);
         window.drawTriangle(triangle);
-        window.setDrawColor(Color.RED);
+        */
+
+
 
         while (true){
 
-            if(window.getKeys()[KeyEvent.VK_W]){
+            if(window.getKeys()[KeyEvent.VK_UP]){
                 verticalMovement += incrementMove;
             }
             if(window.getKeys()[KeyEvent.VK_T]){
                traceOn = !traceOn;
             }
-            if(window.getKeys()[KeyEvent.VK_A]){
+            if(window.getKeys()[KeyEvent.VK_LEFT]){
                 horizontalMovement -= incrementMove;
             }
 
-            if(window.getKeys()[KeyEvent.VK_S]){
+            if(window.getKeys()[KeyEvent.VK_DOWN]){
                 verticalMovement -= incrementMove;
             }
 
-            if(window.getKeys()[KeyEvent.VK_D]){
+            if(window.getKeys()[KeyEvent.VK_RIGHT]){
                 horizontalMovement += incrementMove;
             }
 
-            if(window.getKeys()[KeyEvent.VK_LEFT]){
-                degrees += incrementDegrees;
+            if(window.getKeys()[KeyEvent.VK_D]){
+                yDegrees -= incrementDegrees;
             }
 
-            if(window.getKeys()[KeyEvent.VK_RIGHT]){
-                degrees -= incrementDegrees;
+            if(window.getKeys()[KeyEvent.VK_A]){
+                yDegrees += incrementDegrees;
             }
+
+            if(window.getKeys()[KeyEvent.VK_S]){
+                xDegrees += incrementDegrees;
+            }
+
+            if(window.getKeys()[KeyEvent.VK_W]){
+                xDegrees -= incrementDegrees;
+            }
+
+            if(window.getKeys()[KeyEvent.VK_Q]){
+                zDegrees += incrementDegrees;
+            }
+
+            if(window.getKeys()[KeyEvent.VK_E]){
+                zDegrees -= incrementDegrees;
+            }
+
 
             if(window.getKeys()[KeyEvent.VK_ESCAPE]) {
                 window.close();
             }
 
-            if(window.getKeys()[KeyEvent.VK_UP]) {
+            if(window.getKeys()[KeyEvent.VK_U]) {
                 scale += incrementScale;
             }
 
-            if(window.getKeys()[KeyEvent.VK_DOWN]){
+            if(window.getKeys()[KeyEvent.VK_I]){
                 scale -= incrementScale;
             }
 
+            tMatrix = tMatrix.getTranslationMatrix(horizontalMovement, verticalMovement, 1);
+            sMatrix = sMatrix.getScaleMatrix(scale, scale, scale);
 
-            tMatrix = tMatrix.setTranslationMatrix(horizontalMovement, verticalMovement);
-            sMatrix = sMatrix.setScaleMatrix(scale, scale);
-            rMatrix = rMatrix.setRotationMatrix(degrees);
+            rzMatrix = rzMatrix.getRotationByAngle(Matrix.AXIS.Z_AXIS, zDegrees);
+            rxMatrix = rxMatrix.getRotationByAngle(Matrix.AXIS.X_AXIS, xDegrees);
+            ryMatrix = ryMatrix.getRotationByAngle(Matrix.AXIS.Y_AXIS, yDegrees);
+            rMatrix = rMatrix.combine3Matrices(rzMatrix, rxMatrix, ryMatrix);
 
             matrix = matrix.combine3Matrices(sMatrix, rMatrix, tMatrix);
 
+/*
+            tMatrix = tMatrix.setTranslationMatrix(horizontalMovement, verticalMovement);
+            sMatrix = sMatrix.setScaleMatrix(scale, scale);
+            rMatrix = rMatrix.setRotationMatrix(degrees);
+            matrix = matrix.combine3Matrices(sMatrix, rMatrix, tMatrix);
+*/
+
+            /*
+                   Project each vertex from 3d space to 2d Space
+             */
+            for(int i = 0 ; i < cube.getVertices().length; i++){
+                cube.getVertices()[i] = matrix.transformVertex(cube.getVertices()[i]);
+                cube.getVertices()[i] = Matrix3D.getProjectionVertex(cube.getVertices()[i], pm);
+            }
+
+            Matrix3D.printMatrix(matrix);
+
             window.clearScreen();
+            cube.drawCube(window);
+            cube = new Cube3D();
 
+            /*
             triangle = new Triangle(triangleVertices);
-
             for(int i = 0; i < triangle.getVertices().length; i++)
             {
                 triangle.getVertices()[i] = matrix.transformVertex(triangle.getVertices()[i]);
@@ -105,13 +170,19 @@ public class Program {
             for(double[] p: array) {
                 window.drawPoint2D(p);
             }
+          */
 
-            window.pause(50);
 
-            rMatrix = new Matrix2D();
-            tMatrix = new Matrix2D();
-            matrix = new Matrix2D();
-            sMatrix = new Matrix2D();
+            window.pause(40);
+
+            rzMatrix = new Matrix3D();
+            rxMatrix = new Matrix3D();
+            ryMatrix = new Matrix3D();
+            rMatrix = new Matrix3D();
+            tMatrix = new Matrix3D();
+            matrix = new Matrix3D();
+            sMatrix = new Matrix3D();
+
             counter++;
         }
 

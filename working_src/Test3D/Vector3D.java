@@ -1,5 +1,4 @@
 package Test3D;
-
 public class Vector3D {
 
         private double[] point = new double[4];
@@ -9,6 +8,15 @@ public class Vector3D {
                 point[1] = y;
                 point[2] = z;
                 point[3] = 1.0f;
+        }
+
+        private Vector3D(){
+                this(0.0f, 0.0f, 0.0f);
+                point[3] = 0.0f;
+        }
+
+        public static Vector3D getBlankVector(){
+                return new Vector3D();
         }
 
         public void setX(double x){
@@ -28,12 +36,14 @@ public class Vector3D {
         }
 
         public double getY(){
-                return point[1];
+                 return point[1];
         }
 
         public double getZ(){
                 return point[2];
         }
+
+        public double getW() { return  point[3]; }
 
         public double getMagnitude(){
                 double x = getX();
@@ -85,6 +95,14 @@ public class Vector3D {
                 double dotProd = getDotProduct(aVector, bVector);
 
                 return Math.acos(dotProd / (aMagnitude * bMagnitude));
+        }
+
+        public double[] getArray(){
+                return point;
+        }
+
+        public void printVector(){
+                System.out.print("X: " + getX() + " Y: " + getY() + " Z: " + getZ() + " W: " + getW() + "\n");
         }
 
 }

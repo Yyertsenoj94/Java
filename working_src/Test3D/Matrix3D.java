@@ -1,6 +1,7 @@
 package Test3D;
 
 
+
 public class Matrix3D extends Matrix {
        public Matrix3D(){
               super();
@@ -34,13 +35,13 @@ public class Matrix3D extends Matrix {
               return new Matrix3D(composedArray);
        }
 
-       public double[] transformVertex(double[] vertex) {
-              double[] vOld = vertex;
-              double[] vNew = new double[4];
+       public Vector3D transformVertex(Vector3D vertex) {
+              Vector3D vOld= vertex;
+              Vector3D vNew = Vector3D.getBlankVector();
 
-              for (int i = 0; i < vertex.length; i++) {
-                     for (int j = 0; j < vertex.length; j++) {
-                            vNew[i] += vOld[j] * this.getMatrix()[j][i];
+              for (int i = 0; i < vOld.getArray().length; i++) {
+                     for (int j = 0; j < vOld.getArray().length; j++) {
+                            vNew.getArray()[i] += vOld.getArray()[j] * this.getMatrix()[j][i];
                      }
               }
 
@@ -114,11 +115,10 @@ public class Matrix3D extends Matrix {
 
               m = m.combine2Matrices(m, tm);
 
-              return m;//TODO FIX THE REST OF THE FUNCTION.
+              return m;
        }
 
        public Matrix3D getRotationByTrigRatio(AXIS axis, double sin, double cos){
-
               if(axis == AXIS.X_AXIS) {
                      matrix[1][1] = cos;
                      matrix[2][1] = -sin;
@@ -128,7 +128,7 @@ public class Matrix3D extends Matrix {
               }else if(axis == AXIS.Y_AXIS){
                      matrix[0][0] = cos;
                      matrix[0][2] = sin;
-                     matrix[2][1] = -sin;
+                     matrix[2][0] = -sin;
                      matrix[2][2] = cos;
 
               }else{ //Rotate around Z axis(standard way of doing 2D)
@@ -151,12 +151,12 @@ public class Matrix3D extends Matrix {
               } else if (axis == AXIS.Y_AXIS) {
                      matrix[0][0] = Math.cos(radians);
                      matrix[0][2] = -Math.sin(radians);
-                     matrix[2][1] = Math.sin(radians);
+                     matrix[2][0] = Math.sin(radians);
                      matrix[2][2] = Math.cos(radians);
 
               } else { //Rotate around Z axis(standard way of doing 2D)
                      matrix[0][0] = Math.cos(radians);
-                     matrix[1][0] = Math.sin(radians);
+                     matrix[1][0] = -Math.sin(radians);
                      matrix[0][1] = Math.sin(radians);
                      matrix[1][1] = Math.cos(radians);
 
@@ -165,9 +165,9 @@ public class Matrix3D extends Matrix {
        }
 
        public Matrix3D getTranslationMatrix(double xTranslate, double yTranslate, double zTranslate){
-              super.matrix[4][0] = xTranslate;
-              super.matrix[4][1] = yTranslate;
-              super.matrix[4][2] = zTranslate;
+              super.matrix[3][0] = xTranslate;
+              super.matrix[3][1] = yTranslate;
+              super.matrix[3][2] = zTranslate;
               return this;
        }
 
@@ -177,6 +177,24 @@ public class Matrix3D extends Matrix {
               super.matrix[2][2] = zScale;
               return this;
        }
+
+       public Matrix3D getPerspectiveMatrix(double projectionDistance){
+              super.matrix[2][2] = 0; //set z value to 0 to plot onto the xy view plane
+              /*
+                      sets the w coordinate to z/d + 1, which is what we need to multiply x and z to.
+               */
+              super.matrix[2][3] = 1/projectionDistance;
+              super.matrix[3][3] = 1;
+
+              return this;
+       }
+
+       public static Vector3D getProjectionVertex(Vector3D vertex, Matrix3D projectionMatrix){
+              Vector3D vertexHomogenous = projectionMatrix.transformVertex(vertex);
+              Vector3D projectedVertex = new Vector3D( vertexHomogenous.getX() / vertexHomogenous.getW(), vertexHomogenous.getY() / vertexHomogenous.getW(), vertexHomogenous.getZ() / vertexHomogenous.getW());
+              return projectedVertex;
+       }
+
 
        @Override
        void setToIdentity() {
@@ -194,4 +212,5 @@ public class Matrix3D extends Matrix {
 
               return new Matrix3D(transpose);
        }
+
 }

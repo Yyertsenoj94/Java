@@ -15,6 +15,7 @@ public abstract class Matrix {
                                         {0.0f, 1.0f, 0.0f, 0.0f},
                                         {0.0f, 0.0f, 1.0f, 0.0f},
                                         {0.0f, 0.0f, 0.0f, 1.0f}};
+
     public double [][] matrix;
 
     public Matrix(){
@@ -48,13 +49,15 @@ public abstract class Matrix {
 
 
     public static void printMatrix(Matrix matrix){
+        System.out.println("\tX \tY \t Z \t W\t");
             for(int i = 0; i < matrix.getRows(); i++){
                 System.out.print("[");
                 for(int j = 0; j < matrix.getColumns(); j++){
-                    System.out.print(" " + matrix.getMatrix()[i][j] + " " );
+                    System.out.printf("%.2f ", matrix.getMatrix()[i][j]);
                 }
                 System.out.println("]");
             }
+        System.out.println("\n");
     }
 
     abstract void setToIdentity();

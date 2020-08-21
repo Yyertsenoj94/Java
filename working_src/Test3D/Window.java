@@ -44,7 +44,9 @@ public class Window {
             public void setPointSize(int size){
                 this.pointSize = size;
             }
-
+            public Graphics getGraphics(){
+                return graphics;
+            }
             public void drawPoint2D(double[] point){
                 graphics.setColor(drawColor);
                 graphics.fillOval((int) (centerX + point[0] - (pointSize / 2)), (int) (centerY - point[1] - (pointSize / 2)), (int) pointSize, (int) pointSize);
@@ -58,6 +60,14 @@ public class Window {
             public void drawYAxis(){
                 initDrawColor();
                 graphics.drawLine(width / 2, 0, width / 2, height);
+            }
+
+            public int getCenterX(){
+                return centerX;
+            }
+
+            public int getCenterY(){
+                return centerY;
             }
 
             private void initKeyListeners(){
@@ -90,9 +100,10 @@ public class Window {
             public void clearScreen(){
                 graphics.setColor(backgroundColor);
                 graphics.fillRect(0, 0, width, height);
+                /*
                 drawYAxis();
                 drawXAxis();
-
+                */
             }
 
             public void pause(int milliseconds){
