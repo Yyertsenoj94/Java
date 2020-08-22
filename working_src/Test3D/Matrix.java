@@ -48,12 +48,12 @@ public abstract class Matrix {
     }
 
 
-    public static void printMatrix(Matrix matrix){
+    public void printMatrix(){
         System.out.println("\tX \tY \t Z \t W\t");
-            for(int i = 0; i < matrix.getRows(); i++){
+            for(int i = 0; i < this.getRows(); i++){
                 System.out.print("[");
-                for(int j = 0; j < matrix.getColumns(); j++){
-                    System.out.printf("%.2f ", matrix.getMatrix()[i][j]);
+                for(int j = 0; j < this.getColumns(); j++){
+                    System.out.printf("%.2f ", this.getMatrix()[i][j]);
                 }
                 System.out.println("]");
             }

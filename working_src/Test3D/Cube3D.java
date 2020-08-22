@@ -24,11 +24,11 @@ public class Cube3D {
             {3, 2, 7, 6}
     };
 
-    public Cube3D(){
+    public Cube3D(int size){
         for(Vector3D v: vertices){
-           v.setX(v.getX() * 75);
-           v.setY(v.getY() * 75);
-           v.setZ(v.getZ() * 75);
+           v.setX(v.getX() * size);
+           v.setY(v.getY() * size);
+           v.setZ(v.getZ() * size);
         }
 
     }
@@ -37,16 +37,8 @@ public class Cube3D {
         Graphics g = window.getGraphics();
         int i = 0;
         int j = 0;
-
+        g.setColor(Color.MAGENTA);
         for(i = 0; i < faces.length; i++){
-
-            if(i == 0){
-               g.setColor(Color.RED);
-            }else if(i == 2){
-                g.setColor(Color.BLUE);
-            }else{
-                g.setColor(Color.GRAY);
-            }
 
             for(j = 0; j < faces[i].length - 1; j++){
                 /*
@@ -57,7 +49,6 @@ public class Cube3D {
                 int x2 = window.getCenterX() + (int) vertices[faces[i][j + 1]].getX();
                 int y1 = window.getCenterY() + (int) vertices[faces[i][j]].getY();
                 int y2 = window.getCenterY() + (int) vertices[faces[i][j + 1]].getY();
-                System.out.println("Connecting " + faces[i][j] + " to " + faces[i][j+1]);
                 /*
                 int x1 = window.getCenterX() + (int) vertices[faces[i][j]].getX();
                 int x2 = window.getCenterX() + (int) vertices[faces[i][j + 1]].getX();
