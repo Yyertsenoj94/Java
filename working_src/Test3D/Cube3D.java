@@ -3,8 +3,10 @@ package Test3D;
 import java.awt.*;
 
 public class Cube3D {
-    //public ArrayList<Vector3D> vertices = new ArrayList<>();
-    private Vector3D[] vertices = {
+
+    private final Vector3D[] transformedVertices;
+
+    private final Vector3D[] vertices = {
             new Vector3D(1, 1,1),
             new Vector3D(-1, 1, 1),
             new Vector3D(-1, -1, 1),
@@ -30,40 +32,70 @@ public class Cube3D {
            v.setY(v.getY() * size);
            v.setZ(v.getZ() * size);
         }
-
+        transformedVertices = vertices.clone();
     }
 
     public void drawCube(Window window){
-        Graphics g = window.getGraphics();
-        int i = 0;
-        int j = 0;
-        g.setColor(Color.MAGENTA);
-        for(i = 0; i < faces.length; i++){
+        window.setLineColor(Color.MAGENTA);
+        for(int i = 0; i < faces.length; i++){
+            for(int j = 0; j < faces[i].length - 1; j++){
+                int x1 = (int) transformedVertices[faces[i][j]].getX();
+                int x2 = (int) transformedVertices[faces[i][j + 1]].getX();
+                int y1 = (int) transformedVertices[faces[i][j]].getY();
+                int y2 = (int) transformedVertices[faces[i][j + 1]].getY();
 
-            for(j = 0; j < faces[i].length - 1; j++){
-                /*
-                    Draw to the consecutive vertex point
-                 */
-
-                int x1 = window.getCenterX() + (int) vertices[faces[i][j]].getX();
-                int x2 = window.getCenterX() + (int) vertices[faces[i][j + 1]].getX();
-                int y1 = window.getCenterY() + (int) vertices[faces[i][j]].getY();
-                int y2 = window.getCenterY() + (int) vertices[faces[i][j + 1]].getY();
-                /*
-                int x1 = window.getCenterX() + (int) vertices[faces[i][j]].getX();
-                int x2 = window.getCenterX() + (int) vertices[faces[i][j + 1]].getX();
-                int y1 = window.getCenterY() + (int) vertices[faces[i][j]].getY();
-                int y2 = window.getCenterY() + (int) vertices[faces[i][j + 1]].getY();
-                */
-                g.drawLine(x1, y1, x2, y2);
+                window.drawLine(x1, y1, x2, y2);
 
             }
-
         }
+        drawVertices(window);
+    }
 
+    public void drawVertices(Window window){
+        window.setPointColor(Color.cyan);
+        for(Vector3D v: transformedVertices){
+            window.setPointSize(10 + (int) getScale(v.getZ()));
+            window.drawPoint(v);
+        }
+    }
+    private double getScale(double z){
+        double minZ = getMinZ();
+        double maxZ = getMaxZ();
+        return 50 * (z - minZ) / (maxZ - minZ);
+    }
+    private double getMinZ(){
+        double minZ = transformedVertices[0].getZ();
+        for(Vector3D v: transformedVertices){
+            if(v.getZ() < minZ){
+                minZ = v.getZ();
+            }
+        }
+        System.out.println("Min Z is " + minZ);
+        return minZ;
+    }
+
+    private double getMaxZ(){
+        double maxZ = transformedVertices[0].getZ();
+        for(Vector3D v: transformedVertices){
+            if(v.getZ() > maxZ){
+                maxZ = v.getZ();
+            }
+        }
+        System.out.println("Max Z is " + maxZ);
+        return maxZ;
+    }
+
+    public void printVertices(Vector3D[] vertices){
+       for(Vector3D v: vertices){ ;
+           v.printVector();
+       }
     }
 
     public Vector3D[] getVertices(){
         return vertices;
+    }
+
+    public Vector3D[] getTransformedVertices(){
+        return transformedVertices;
     }
 }

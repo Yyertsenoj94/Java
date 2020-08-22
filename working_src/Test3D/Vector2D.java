@@ -2,49 +2,62 @@ package Test3D;
 
 public class Vector2D {
 
-    private final float[] vector;
+    private double x;
+    private double y;
+    private double z;
 
-    public Vector2D(float x, float y){
-       vector = new float[3];
-       vector[0] = x;
-       vector[1] = y;
-       vector[2] = 1; //need this 3rd point.
+    public Vector2D(double x, double y, double z){
+       this.x = x;
+       this.y = y;
+       this.z = z; //need this 3rd point.
+    }
+
+    public Vector2D(double x, double y){
+        this(x, y, 1);
     }
 
     public void scaleVector(float scalar){
-        this.vector[0] *= scalar;
-        this.vector[1] *= scalar;
+        this.x *= scalar;
+        this.y *= scalar;
     }
 
     public void addToVector(Vector2D vector){
-        setX(this.getX() + vector.getX());
-        setY(this.getX() + vector.getY());
+        setX(this.x + vector.getX());
+        setY(this.y + vector.getY());
     }
 
     public void subtractVector(Vector2D vector){
-        setX(this.getX() - vector.getX());
-        setY(this.getY() - vector.getY());
+        setX(this.x - vector.getX());
+        setY(this.y - vector.getY());
     }
 
-    public Vector2D getVectorFromPoints(float[] p1, float[] p2){
+    public Vector2D getVectorFromPoints(double[] p1, double[] p2){
         //A vector is just the tail point - head point
         return new Vector2D(p2[0] - p1[0], p2[1] - p1[1]);
     }
 
-
-    public float getX(){
-        return this.vector[0];
+    public double[] getArrayFromVector(){
+        double[] array = {this.x, this.y, 1};
+        return array;
     }
 
-    public float getY(){
-        return this.vector[1];
+    public double getX(){
+        return this.x;
     }
 
-    public void setX(float x){
-        this.vector[0] = x;
+    public double getY(){
+        return this.y;
     }
 
-    public void setY(float y){
-        this.vector[1] = y;
+    public void setX(double x){
+        this.x = x;
+    }
+
+    public void setY(double y){
+        this.y = y;
+    }
+
+    public void printVector(){
+        System.out.print("X: " + this.x + " Y: " + this.y);
     }
 }

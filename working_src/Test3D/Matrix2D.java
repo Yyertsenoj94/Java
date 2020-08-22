@@ -12,41 +12,51 @@ public class Matrix2D extends Matrix {
         super.matrix = array;
     }
 
-    public Matrix2D setRotationMatrix(double degrees){
-        double radians = degrees * DEGREES_TO_RADIANS;
-        matrix[0][0] = (float) Math.cos(radians);
-        matrix[1][0] = (float) -Math.sin(radians);
-        matrix[0][1] = (float) Math.sin(radians);
-        matrix[1][1] = (float) Math.cos(radians);
-        return this;
+    public static Matrix2D getRotationMatrixAroundPoint(Vector2D point, double degrees){
+        Matrix2D inverseTranslationM = Matrix2D.getTranslationMatrix(-point.getX(), -point.getY());
+        Matrix2D rotationM = Matrix2D.getRotationMatrixOrigin(degrees);
+        Matrix2D translationM = Matrix2D.getTranslationMatrix(point.getX(), point.getY());
+
+        return Matrix2D.combine3Matrices(inverseTranslationM, rotationM, translationM);
     }
 
+    public static Matrix2D getRotationMatrixOrigin(double degrees){
+        Matrix2D matrix = new Matrix2D();
+        double radians = degrees * DEGREES_TO_RADIANS;
+        matrix.getMatrix()[0][0] = (float) Math.cos(radians);
+        matrix.getMatrix()[1][0] = (float) -Math.sin(radians);
+        matrix.getMatrix()[0][1] = (float) Math.sin(radians);
+        matrix.getMatrix()[1][1] = (float) Math.cos(radians);
+        return matrix;
+    }
 
-    public Matrix2D setScaleMatrix(double xScale, double yScale){
-        super.matrix[0][0] = xScale;
-        super.matrix[1][1] = yScale;
-
-        return this;
+    public static Matrix2D getScaleMatrix(double xScale, double yScale){
+        Matrix2D matrix = new Matrix2D();
+        matrix.getMatrix()[0][0] = xScale;
+        matrix.getMatrix()[1][1] = yScale;
+        return matrix;
     }
 
     /*          TRANSLATION FUNCTIONS           */
-    public Matrix2D setTranslationMatrix(double xChange, double yChange){
-        super.matrix[2][0] = xChange; //Catch the delta x
-        super.matrix[2][1] = yChange; //Catch the delta y;
-        return this;
+    public static Matrix2D getTranslationMatrix(double xChange, double yChange){
+        Matrix2D matrix = new Matrix2D();
+        matrix.getMatrix()[2][0] = xChange; //Catch the delta x
+        matrix.getMatrix()[2][1] = yChange; //Catch the delta y;
+        return matrix;
     }
 
-    public double[] transformVertex(double[] vertex){
-        double[] vOld = vertex;
+    public Vector2D transformVertex(Vector2D vertex){
+        double[] vOld = vertex.getArrayFromVector();
         double[] vNew = new double[3];
 
-        for(int i = 0; i < vertex.length; i++){
-            for(int j = 0; j < vertex.length; j++){
+        for(int i = 0; i < vOld.length; i++){
+            for(int j = 0; j < vOld.length; j++){
                 vNew[i] += vOld[j] * this.getMatrix()[j][i];
             }
         }
 
-        return vNew;
+        return new Vector2D(vNew[0], vNew[1], vNew[2]);
+
     }
 
     public int getRows(){
@@ -61,14 +71,14 @@ public class Matrix2D extends Matrix {
         return super.matrix;
     }
 
-    public Matrix2D combine3Matrices(Matrix matrix1, Matrix matrix2, Matrix matrix3){
+    public static Matrix2D combine3Matrices(Matrix matrix1, Matrix matrix2, Matrix matrix3){
         Matrix2D combined = new Matrix2D();
-        combined = combine2Matrices(matrix1, matrix2);
+        combined = Matrix2D.combine2Matrices(matrix1, matrix2);
         combined = combine2Matrices(combined, matrix3);
 
         return combined;
     }
-    public Matrix2D combine2Matrices(Matrix matrix1, Matrix matrix2){
+    public static Matrix2D combine2Matrices(Matrix matrix1, Matrix matrix2){
 
         double[][] composedArray = new double[matrix1.getRows()][matrix1.getColumns()];
 
@@ -107,12 +117,4 @@ public class Matrix2D extends Matrix {
     public void setToIdentity(){
         super.set2DMatrix();
     }
-    /*
-    float[][] matrix = {{1.0f, 0.0f, 0.0f},
-                        {0.0f, 1.0f, 0.0f},
-                        {x2, y2, 1.0f}};
-
-     */
-
-    //new [(x + x2),(y + y2), 1]
 }

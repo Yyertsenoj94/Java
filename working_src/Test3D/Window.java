@@ -14,7 +14,8 @@ public class Window {
             private int pointSize;
             private int centerX;
             private int centerY;
-            private Color drawColor;
+            private Color lineColor;
+            private Color pointColor;
             private Color backgroundColor;
 
             public Window(int width, int height){
@@ -25,7 +26,7 @@ public class Window {
                 centerX = (int) (width / 2);
                 centerY = (int) (height / 2);
                 pointSize = 8;
-                setDrawColor(Color.WHITE);
+                setLineColor(Color.WHITE);
                 setBackgroundColor(Color.BLACK);
                 initKeyListeners();
                 for(boolean key: keys){
@@ -37,28 +38,57 @@ public class Window {
                 this.backgroundColor = color;
                 clearScreen();
             }
-            public void setDrawColor(Color color){
-                this.drawColor = color;
+
+            public void setLineColor(Color color){
+                this.lineColor = color;
+            }
+
+            public void setPointColor(Color color){
+                this.pointColor = color;
             }
 
             public void setPointSize(int size){
                 this.pointSize = size;
             }
+
             public Graphics getGraphics(){
                 return graphics;
             }
-            public void drawPoint2D(double[] point){
-                graphics.setColor(drawColor);
-                graphics.fillOval((int) (centerX + point[0] - (pointSize / 2)), (int) (centerY - point[1] - (pointSize / 2)), (int) pointSize, (int) pointSize);
+
+            public void drawPoint(double[] point){
+                int x = centerX + ((int) point[0]) - pointSize / 2;
+                int y = centerY - ((int) point[1]) - pointSize / 2;
+                int size = pointSize;
+                initPointColor();
+                graphics.fillOval(x, y, size, size);
+            }
+
+            public void drawPoint(Point2D point){
+                double[] p = {point.getX(), point.getY()};
+                drawPoint(p);
+            }
+
+            public void drawPoint(Vector3D v){
+                double[] p = {v.getX(), v.getY()};
+                drawPoint(p);
+            }
+
+            public void drawLine(double x1, double y1, double x2, double y2){
+                initLineColor();
+                int X1 = centerX + (int) x1;
+                int X2 = centerX + (int) x2;
+                int Y1 = centerY - (int) y1;
+                int Y2 = centerY - (int) y2;
+                graphics.drawLine(X1, Y1, X2, Y2);
             }
 
             public void drawXAxis(){
-                initDrawColor();
+                initLineColor();
                 graphics.drawLine(0, (height / 2), width, (height/2));
             }
 
             public void drawYAxis(){
-                initDrawColor();
+                initLineColor();
                 graphics.drawLine(width / 2, 0, width / 2, height);
             }
 
@@ -103,7 +133,7 @@ public class Window {
                 /*
                 drawYAxis();
                 drawXAxis();
-                */
+                 */
             }
 
             public void pause(int milliseconds){
@@ -115,21 +145,24 @@ public class Window {
             }
 
             public void drawTriangle(Triangle triangle){
-                int x1 = (int) (centerX + triangle.getVertices()[0][0]);
-                int x2 = (int) (centerX + triangle.getVertices()[1][0]);
-                int x3 = (int) (centerX + triangle.getVertices()[2][0]);
-                int y1 = (int) (centerY - triangle.getVertices()[0][1]);
-                int y2 = (int) (centerY - triangle.getVertices()[1][1]);
-                int y3 = (int) (centerY - triangle.getVertices()[2][1]);
-                initDrawColor();
+                int x1 = (int) (centerX + triangle.getVertices()[0].getX());
+                int x2 = (int) (centerX + triangle.getVertices()[1].getX());
+                int x3 = (int) (centerX + triangle.getVertices()[2].getX());
+                int y1 = (int) (centerY - triangle.getVertices()[0].getY());
+                int y2 = (int) (centerY - triangle.getVertices()[1].getY());
+                int y3 = (int) (centerY - triangle.getVertices()[2].getY());
+                initLineColor();
                 graphics.drawLine(x1, y1, x2, y2);
                 graphics.drawLine(x2, y2, x3, y3);
                 graphics.drawLine(x3, y3, x1, y1);
             }
 
-            private void initDrawColor(){
-                graphics.setColor(drawColor);
+            private void initLineColor(){
+                graphics.setColor(lineColor);
             }
 
+            private void initPointColor(){
+                graphics.setColor(pointColor);
+            }
 
 }

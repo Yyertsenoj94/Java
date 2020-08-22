@@ -49,14 +49,10 @@ public class Matrix3D extends Matrix {
 
               return vNew;
        }
+       //FIXME - Make this take in two vector objects rather than arrays.
        public Matrix3D getArbitraryRotationMatrix(double[] vertex1, double[] vertex2, double angle){
               /* this function will create a rotation matrix based on the vector between two vertices passed into the function */
               Vector3D vector = new Vector3D(vertex2[0] - vertex1[0], vertex2[1] - vertex1[1], vertex2[2] - vertex1[2]);
-              System.out.println("Unit Vector Dimensions");
-              System.out.println("X: " + vector.getX());
-              System.out.println("Y: " + vector.getY());
-              System.out.println("Z " + vector.getZ());
-              System.out.println("W: " + vector.getW());
               Vector3D unitVector = vector.getUnitVector();
               unitVector.printVector();
               Matrix3D m = new Matrix3D();
@@ -199,7 +195,8 @@ public class Matrix3D extends Matrix {
        }
 
        public Matrix3D getPerspectiveMatrix(double projectionDistance){
-              super.matrix[2][2] = 0; //set z value to 0 to plot onto the xy view plane
+              //FIXME _ THIS MIGHT NEED TO BE UNDONE - I don't see the benefit in actually setting z to 0 since we don't use it when drawing.
+              //super.matrix[2][2] = 0; //set z value to 0 to plot onto the xy view plane
               /*
                       sets the w coordinate to z/d + 1, which is what we need to multiply x and z to.
                */
