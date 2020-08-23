@@ -1,9 +1,12 @@
 package Test3D;
 
 
+import java.awt.*;
 import java.util.Scanner;
 
 public class Matrix3D extends Matrix {
+       Window window;
+
        Scanner scanner = new Scanner((System.in));
        public Matrix3D(){
               super();
@@ -53,27 +56,34 @@ public class Matrix3D extends Matrix {
        public Matrix3D getArbitraryRotationMatrix(double[] vertex1, double[] vertex2, double angle){
               /* this function will create a rotation matrix based on the vector between two vertices passed into the function */
               Vector3D vector = new Vector3D(vertex2[0] - vertex1[0], vertex2[1] - vertex1[1], vertex2[2] - vertex1[2]);
+
               Vector3D unitVector = vector.getUnitVector();
-              unitVector.printVector();
+
               Matrix3D m = new Matrix3D();
               Matrix3D tm = new Matrix3D();
               Matrix3D xRm = new Matrix3D();
               Matrix3D yRm = new Matrix3D();
               Matrix3D zRm = new Matrix3D();
-              Matrix3D rm = new Matrix3D();
 
               double a = unitVector.getX();
               System.out.println("A is " + a);
-
               double b = unitVector.getY();
               double c = unitVector.getZ();
+
+              System.out.println("Unit Vector");
+              unitVector.printVector();
+
               double d;
               double cos;
               double sin;
+
               /*
                 first, create the matrix that will translate the original POINT back to origin.
               */
+
               tm = tm.getTranslationMatrix(-vertex1[0], -vertex1[1], -vertex1[2]);
+              System.out.println("T Matrix: ");
+              tm.printMatrix();
               /*
                      Second, the unit vector rotate around the x axis (a is 0, d is sqrt(b^2 + c^2) 2D pythagoras)
                      to get the vector to lie on the XZ plane.
@@ -83,53 +93,82 @@ public class Matrix3D extends Matrix {
               d = Math.sqrt(b*b + c*c);
 
               if(d != 0){
+                     System.out.println("Computing X:");
                      sin = b / d;
                      cos = c / d;
-                     xRm = getRotationByTrigRatio(AXIS.X_AXIS, sin, cos);
+                     System.out.println("Sin is " + sin);
+                     System.out.println("Cos is " + cos);
+                     xRm = xRm.getRotationByTrigRatio(AXIS.X_AXIS, sin, cos);
               }
 
-              m = m.combine2Matrices(xRm, tm);
+              System.out.println("A: " + a);
+              System.out.println("B: " + b);
+              System.out.println("C: " + c);
+              System.out.println("D: " + d);
 
+              System.out.println("X Matrix ");
+              xRm.printMatrix();
+
+              m = m.combine2Matrices(tm, xRm);
+              System.out.println("Combined translate and x matrix");
+              m.printMatrix();
               /*
                      Third, rotate unit vector around the Y axis to get the vector to lie on the Z Axis.
                      "a" is still the same, representing x. Y is now not included.
                      "c side" is now what d was since "d", the hypotenuse length, got rotated onto the z axis.
                */
-              System.out.println("M after tm and xRM");
-              m.printMatrix();
 
-              d = Math.sqrt(a*a + d*d); //d should now equal 1! because this is the same as sqrt(a^2 + b^2 + c^2) and since this is a unit vector, it will be 1.
               sin = -a; //If you draw this out, you will see the z axis is going down, making sin need to shrink.
+
               System.out.println("Sin is " + sin);
               cos = d;
-              yRm = getRotationByTrigRatio(AXIS.Y_AXIS, sin, cos);
+              System.out.println("Cos is : " + cos);
 
-              System.out.println("Print Matrix");
+              yRm = yRm.getRotationByTrigRatio(AXIS.Y_AXIS, sin, cos);
 
+              System.out.println("Y Matrix");
               yRm.printMatrix();
 
               /* COMBINE MATRICES AGAIN */
-
-              m = m.combine2Matrices(yRm, m);
-              System.out.println("M after combo with yRM");
+              m = m.combine2Matrices(m, yRm);
+              System.out.println("Combine with y Matrix");
               m.printMatrix();
               /*
                      Fourth, rotate the unit vector around the Z axis to get the desired rotation.
               */
-              zRm = rm.getRotationByAngle(AXIS.Z_AXIS, angle);
-              m = m.combine2Matrices(m, zRm);
 
+              zRm = zRm.getRotationByAngle(AXIS.Z_AXIS, angle);
+              System.out.println("Z Matrix");
+              zRm.printMatrix();
+              m = m.combine2Matrices(m, zRm);
+              System.out.println("Combined with z Matrix");
+              m.printMatrix();
               /*
                      Finally, do inverse of rotations and do inverse of each rotation and translation. (BEFORE Z ROTATION)
                */
-              yRm = getTransposedMatrix(yRm);
-              xRm = getTransposedMatrix(xRm);
-              m = m.combine3Matrices(m, yRm, xRm);
+              yRm = yRm.getTransposedMatrix(yRm);
+              m = m.combine2Matrices(m, yRm);
+
+              System.out.println("Y Transposed");
+              yRm.printMatrix();
+
+              System.out.println("Combined with Y transposed");
+              m.printMatrix();
+
+              System.out.println("X Transposed");
+              xRm = xRm.getTransposedMatrix(xRm);
+              xRm.printMatrix();
+
+              System.out.println("Combined with X transposed");
+              m = m.combine2Matrices(m, xRm);
+              m.printMatrix();
 
               tm = tm.getTranslationMatrix(vertex1[0], vertex1[1], vertex1[2]); // Translate back to original vertex point.
+              System.out.println("Translate Back Matrix");
+              tm.printMatrix();
 
-              m = m.combine2Matrices(tm, m);
-              System.out.println("Final matrix");
+              System.out.println("Combined with translate back");
+              m = m.combine2Matrices(m, tm);
               m.printMatrix();
               return m;
        }
@@ -143,8 +182,8 @@ public class Matrix3D extends Matrix {
 
               }else if(axis == AXIS.Y_AXIS){
                      matrix[0][0] = cos;
-                     matrix[0][2] = sin;
-                     matrix[2][0] = -sin;
+                     matrix[0][2] = -sin;
+                     matrix[2][0] = sin;
                      matrix[2][2] = cos;
 
               }else{ //Rotate around Z axis(standard way of doing 2D)
@@ -228,6 +267,11 @@ public class Matrix3D extends Matrix {
               }
 
               return new Matrix3D(transpose);
+       }
+
+       //DELETE LATER
+       public void setWindow(Window window){
+              this.window = window;
        }
 
 }

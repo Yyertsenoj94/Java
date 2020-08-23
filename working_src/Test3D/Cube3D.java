@@ -45,24 +45,25 @@ public class Cube3D {
                 int y2 = (int) transformedVertices[faces[i][j + 1]].getY();
 
                 window.drawLine(x1, y1, x2, y2);
-
             }
         }
         drawVertices(window);
     }
 
-    public void drawVertices(Window window){
+    private void drawVertices(Window window){
         window.setPointColor(Color.cyan);
         for(Vector3D v: transformedVertices){
             window.setPointSize(10 + (int) getScale(v.getZ()));
             window.drawPoint(v);
         }
     }
+
     private double getScale(double z){
         double minZ = getMinZ();
         double maxZ = getMaxZ();
         return 50 * (z - minZ) / (maxZ - minZ);
     }
+
     private double getMinZ(){
         double minZ = transformedVertices[0].getZ();
         for(Vector3D v: transformedVertices){
@@ -70,7 +71,6 @@ public class Cube3D {
                 minZ = v.getZ();
             }
         }
-        System.out.println("Min Z is " + minZ);
         return minZ;
     }
 
@@ -81,7 +81,6 @@ public class Cube3D {
                 maxZ = v.getZ();
             }
         }
-        System.out.println("Max Z is " + maxZ);
         return maxZ;
     }
 

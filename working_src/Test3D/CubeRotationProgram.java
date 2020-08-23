@@ -25,7 +25,7 @@ public class CubeRotationProgram {
     static double maxScale = 1.05;
     static double minScale = .50;
     static int counter = 0;
-    static int cubeSize = 200;
+    static int cubeSize = 100;
     static final Scanner scanner = new Scanner(System.in);
     int pointsCounter = 0;
 
@@ -51,30 +51,32 @@ public class CubeRotationProgram {
         Matrix3D rMatrix = new Matrix3D();
         Matrix3D matrix = new Matrix3D();
 
+        raMatrix.setWindow(window);
+
         window.clearScreen();
 
         Cube3D cube = new Cube3D(cubeSize);
 
-        double[] p1 ={cube.getVertices()[0].getX(), cube.getVertices()[0].getY(), cube.getVertices()[0].getZ(), cube.getVertices()[0].getW()};
-        double[] p2 = {cube.getVertices()[1].getX(), cube.getVertices()[1].getY(), cube.getVertices()[1].getZ(), cube.getVertices()[1].getW()};
+        //double[] p1 ={cube.getVertices()[4].getX(), cube.getVertices()[4].getY(), cube.getVertices()[4].getZ(), cube.getVertices()[4].getW()};
+        //double[] p2 = {cube.getVertices()[7].getX(), cube.getVertices()[7].getY(), cube.getVertices()[7].getZ(), cube.getVertices()[7].getW()};
+
+        double[] p1 = {300, -100, 100};
+        double[] p2 = {300, 100, -100};
 
         cube.drawCube(window);
-
         while (true){
 
             getKeys();
 
             tMatrix = tMatrix.getTranslationMatrix(horizontalMovement, verticalMovement, 1);
             sMatrix = sMatrix.getScaleMatrix(scale, scale, scale);
-
             rzMatrix = rzMatrix.getRotationByAngle(Matrix.AXIS.Z_AXIS, zDegrees);
             rxMatrix = rxMatrix.getRotationByAngle(Matrix.AXIS.X_AXIS, xDegrees);
             ryMatrix = ryMatrix.getRotationByAngle(Matrix.AXIS.Y_AXIS, yDegrees);
-            //raMatrix = raMatrix.getArbitraryRotationMatrix(p1, p2, aDegrees);
-            rMatrix = rMatrix.combine3Matrices(rzMatrix, rxMatrix, ryMatrix);
+            //rMatrix = rMatrix.combine3Matrices(rzMatrix, rxMatrix, ryMatrix);
 
-            matrix = matrix.combine3Matrices(sMatrix, rMatrix, tMatrix);
-
+            raMatrix = raMatrix.getArbitraryRotationMatrix(p1, p2, aDegrees);
+            matrix = matrix.combine3Matrices(sMatrix, raMatrix, tMatrix);
             /*
                    Project each vertex from 3d space to 2d Space
              */
@@ -83,8 +85,6 @@ public class CubeRotationProgram {
                 cube.getTransformedVertices()[i] = matrix.transformVertex(cube.getVertices()[i]);
                 cube.getTransformedVertices()[i] = Matrix3D.getProjectionVertex(cube.getTransformedVertices()[i], pm);
             }
-
-            matrix.printMatrix();
 
             window.clearScreen();
 
@@ -96,25 +96,12 @@ public class CubeRotationProgram {
             rxMatrix.setToIdentity();
             ryMatrix.setToIdentity();
             rMatrix.setToIdentity();
-            //raMatrix = new Matrix3D();
+            raMatrix.setToIdentity();
             tMatrix.setToIdentity();
             matrix.setToIdentity();
             sMatrix.setToIdentity();
 
-            /*
-            rzMatrix = new Matrix3D();
-            rxMatrix = new Matrix3D();
-            ryMatrix = new Matrix3D();
-            rMatrix = new Matrix3D();
-            //raMatrix = new Matrix3D();
-            tMatrix = new Matrix3D();
-            matrix = new Matrix3D();
-            sMatrix = new Matrix3D();
-           */
-
         }
-
-
     }
     public static void randMove(){
 
@@ -141,7 +128,6 @@ public class CubeRotationProgram {
         }
 
         if(Math.abs(verticalMovement) >= maxV){
-            System.out.printf("Switching");
             vDirection = !vDirection;
         }
         if(Math.abs(horizontalMovement) >= maxH){
