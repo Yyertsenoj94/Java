@@ -5,39 +5,104 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class Window {
-
+            //Java panel and graphics
             private DrawingPanel panel;
             private Graphics graphics;
+
+            //KEY ARRAY FOR KEY STROKES
             private boolean[] keys = new boolean[1024];
-            private int width;
-            private int height;
-            private int pointSize;
+
+            //WINDOW DIMENSIONS
+            private int windowWidth;
+            private int windowHeight;
+
+            //VIEWPORT DIMENSIONS
+            private int viewPortXMin;
+            private int viewPortXMax;
+            private int viewPortYMax;
+            private int viewPortYMin;
+            private int viewPortWidth;
+            private int viewPortHeight;
+
+            //CENTER OF VIEWPORT
             private int centerX;
             private int centerY;
+
+            //DIMENSION FOR POINT CIRCLE
+            private int pointSize;
+
+            //COLORS
             private Color lineColor;
             private Color pointColor;
             private Color backgroundColor;
 
             public Window(int width, int height){
-                this.width = width;
-                this.height = height;
+                this.windowWidth = width;
+                this.windowHeight = height;
+
                 panel = new DrawingPanel(width, height);
                 graphics = panel.getGraphics();
-                centerX = (int) (width / 2);
-                centerY = (int) (height / 2);
-                pointSize = 8;
+
+                setViewPort(width, height);
+                setViewCenter();
+                setPointSize(8);
                 setLineColor(Color.WHITE);
                 setBackgroundColor(Color.BLACK);
                 initKeyListeners();
-                for(boolean key: keys){
-                    key = false; // initialize all values to false.
-                }
+                initKeys();
+
+
             }
 
-            public void setBackgroundColor(Color color){
-                this.backgroundColor = color;
-                clearScreen();
+
+            // VIEWPORT FUNCTIONS
+            public void setViewPort(int width, int height){
+                    if(width > windowWidth) {
+                        viewPortWidth = windowWidth; //prevent larger viewport
+                    }else{
+                        viewPortWidth = width;
+                    }
+
+                    if(height > windowHeight) {
+                        viewPortHeight = windowHeight;
+                    }else{
+                        viewPortHeight = height;
+                    }
+                    viewPortXMin = (windowWidth - width) / 2;
+                    viewPortXMax = viewPortXMin + viewPortWidth;
+
+                    viewPortYMin = (windowHeight - height) / 2;
+                    viewPortYMax = (viewPortYMin + height);
+
+                    setViewCenter();
+                    refreshViewPort();
             }
+
+            public void drawViewPortFrame(){
+                initLineColor();
+                graphics.drawLine(viewPortXMin, viewPortYMin, viewPortXMax, viewPortYMin); //draw top;
+                graphics.drawLine(viewPortXMin, viewPortYMax, viewPortXMax, viewPortYMax); //draw bottom
+                graphics.drawLine(viewPortXMin, viewPortYMin, viewPortXMin, viewPortYMax); //draw left;
+                graphics.drawLine(viewPortXMax, viewPortYMin, viewPortXMax, viewPortYMax); //draw right;
+            }
+
+            private void setViewCenter(){
+                this.centerX = (viewPortXMax + viewPortXMin) / 2;
+                this.centerY = (viewPortYMax + viewPortYMin) / 2;
+            }
+
+            private void refreshViewPort(){
+                drawViewPortFrame();
+                drawXAxis();
+                drawYAxis();
+            }
+
+
+            //SETTERS FOR DRAWING
+            public void setBackgroundColor(Color color){
+        this.backgroundColor = color;
+        clearScreen();
+    }
 
             public void setLineColor(Color color){
                 this.lineColor = color;
@@ -51,10 +116,8 @@ public class Window {
                 this.pointSize = size;
             }
 
-            public Graphics getGraphics(){
-                return graphics;
-            }
 
+           //DRAW FUNCTIONS
             public void drawPoint(double[] point){
                 int x = centerX + ((int) point[0]) - pointSize / 2;
                 int y = centerY - ((int) point[1]) - pointSize / 2;
@@ -82,14 +145,89 @@ public class Window {
                 graphics.drawLine(X1, Y1, X2, Y2);
             }
 
+            public void drawLine(LineSegment s){
+                drawLine(s.getX1(), s.getY1(), s.getX2(), s.getY2());
+            }
+
             public void drawXAxis(){
                 initLineColor();
-                graphics.drawLine(0, (height / 2), width, (height/2));
+                graphics.drawLine(viewPortXMin, centerY, viewPortXMax, centerY);
             }
 
             public void drawYAxis(){
                 initLineColor();
-                graphics.drawLine(width / 2, 0, width / 2, height);
+                graphics.drawLine(centerX, viewPortYMax, centerX, viewPortYMin);
+            }
+
+
+            //INITIALIZERS FOR DRAWING
+            private void initLineColor(){
+        graphics.setColor(lineColor);
+    }
+
+            private void initPointColor(){
+                graphics.setColor(pointColor);
+            }
+
+            private void initKeyListeners(){
+                  panel.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                //DO NOTHING
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                keys[e.getKeyCode()] = true;
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                keys[e.getKeyCode()] = false;
+            }
+        });
+            }
+
+            private void initKeys(){
+                for(boolean key: keys){
+                    key = false; // initialize all values to false.
+                }
+            }
+
+
+
+
+            //GETTERS
+            public int getXVMin(){
+               return viewPortXMin;
+            }
+
+            public int getXVMax(){
+                return viewPortXMax;
+            }
+
+            public int getYVMax(){
+                return viewPortYMax;
+            }
+
+            public int getYVMin(){
+                return viewPortYMin;
+            }
+
+            public int getXWMin(){
+                return 0;
+            }
+
+            public int getXWMax(){
+                return windowWidth;
+            }
+
+            public int getYWMin(){
+                return 0;
+            }
+
+            public int getYWMax(){
+                return windowHeight;
             }
 
             public int getCenterX(){
@@ -100,27 +238,19 @@ public class Window {
                 return centerY;
             }
 
-            private void initKeyListeners(){
-                panel.addKeyListener(new KeyListener() {
-                    @Override
-                    public void keyTyped(KeyEvent e) {
-                        //DO NOTHING
-                    }
-
-                    @Override
-                    public void keyPressed(KeyEvent e) {
-                        keys[e.getKeyCode()] = true;
-                    }
-
-                    @Override
-                    public void keyReleased(KeyEvent e) {
-                        keys[e.getKeyCode()] = false;
-                    }
-                });
+            public int getPointSize(){
+                return pointSize;
             }
 
             public boolean[] getKeys(){
                 return keys;
+            }
+
+
+
+            //OTHER WINDOW FUNCTIONS
+            public void pause(int milliseconds){
+                panel.sleep(milliseconds);
             }
 
             public void close(){
@@ -129,40 +259,8 @@ public class Window {
 
             public void clearScreen(){
                 graphics.setColor(backgroundColor);
-                graphics.fillRect(0, 0, width, height);
-                /*
-                drawYAxis();
-                drawXAxis();
-                 */
-            }
-
-            public void pause(int milliseconds){
-                panel.sleep(milliseconds);
-            }
-
-            public DrawingPanel getPanel(){
-                return panel;
-            }
-
-            public void drawTriangle(Triangle triangle){
-                int x1 = (int) (centerX + triangle.getVertices()[0].getX());
-                int x2 = (int) (centerX + triangle.getVertices()[1].getX());
-                int x3 = (int) (centerX + triangle.getVertices()[2].getX());
-                int y1 = (int) (centerY - triangle.getVertices()[0].getY());
-                int y2 = (int) (centerY - triangle.getVertices()[1].getY());
-                int y3 = (int) (centerY - triangle.getVertices()[2].getY());
-                initLineColor();
-                graphics.drawLine(x1, y1, x2, y2);
-                graphics.drawLine(x2, y2, x3, y3);
-                graphics.drawLine(x3, y3, x1, y1);
-            }
-
-            private void initLineColor(){
-                graphics.setColor(lineColor);
-            }
-
-            private void initPointColor(){
-                graphics.setColor(pointColor);
+                graphics.fillRect(0, 0, windowWidth, windowHeight);
+                refreshViewPort();
             }
 
 }

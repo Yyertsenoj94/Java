@@ -60,8 +60,8 @@ public class CubeRotationProgram {
         //double[] p1 ={cube.getVertices()[4].getX(), cube.getVertices()[4].getY(), cube.getVertices()[4].getZ(), cube.getVertices()[4].getW()};
         //double[] p2 = {cube.getVertices()[7].getX(), cube.getVertices()[7].getY(), cube.getVertices()[7].getZ(), cube.getVertices()[7].getW()};
 
-        double[] p1 = {300, -100, 100};
-        double[] p2 = {300, 100, -100};
+        double[] p1 = {0, -200, 300};
+        double[] p2 = {0, 200, 300};
 
         cube.drawCube(window);
         while (true){
@@ -73,10 +73,11 @@ public class CubeRotationProgram {
             rzMatrix = rzMatrix.getRotationByAngle(Matrix.AXIS.Z_AXIS, zDegrees);
             rxMatrix = rxMatrix.getRotationByAngle(Matrix.AXIS.X_AXIS, xDegrees);
             ryMatrix = ryMatrix.getRotationByAngle(Matrix.AXIS.Y_AXIS, yDegrees);
-            //rMatrix = rMatrix.combine3Matrices(rzMatrix, rxMatrix, ryMatrix);
-
+            rMatrix = rMatrix.combine3Matrices(rzMatrix, rxMatrix, ryMatrix);
             raMatrix = raMatrix.getArbitraryRotationMatrix(p1, p2, aDegrees);
-            matrix = matrix.combine3Matrices(sMatrix, raMatrix, tMatrix);
+            rMatrix = rMatrix.combine2Matrices(rMatrix, raMatrix);
+
+            matrix = matrix.combine3Matrices(sMatrix, rMatrix, tMatrix);
             /*
                    Project each vertex from 3d space to 2d Space
              */
@@ -168,18 +169,24 @@ public class CubeRotationProgram {
             verticalMovement += incrementMove;
         }
 
+        if(window.getKeys()[KeyEvent.VK_N]){
+            aDegrees += incrementDegrees;
+        }
+
+        if(window.getKeys()[KeyEvent.VK_B]){
+            aDegrees -= incrementDegrees;
+        }
+
         if(window.getKeys()[KeyEvent.VK_RIGHT]){
             horizontalMovement += incrementMove;
         }
 
         if(window.getKeys()[KeyEvent.VK_D]){
             yDegrees += incrementDegrees;
-            aDegrees -= incrementDegrees;
         }
 
         if(window.getKeys()[KeyEvent.VK_A]){
             yDegrees -= incrementDegrees;
-            aDegrees += incrementDegrees;
         }
 
         if(window.getKeys()[KeyEvent.VK_S]){

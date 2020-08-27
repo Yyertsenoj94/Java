@@ -47,13 +47,15 @@ public class Cube3D {
                 window.drawLine(x1, y1, x2, y2);
             }
         }
+
         drawVertices(window);
     }
 
     private void drawVertices(Window window){
+        window.setPointSize(20);
         window.setPointColor(Color.cyan);
         for(Vector3D v: transformedVertices){
-            window.setPointSize(10 + (int) getScale(v.getZ()));
+            //window.setPointSize(10 + (int) getScale(v.getZ()));
             window.drawPoint(v);
         }
     }
