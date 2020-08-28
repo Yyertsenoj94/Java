@@ -44,6 +44,7 @@ public class Cube3D {
                 int y1 = (int) transformedVertices[faces[i][j]].getY();
                 int y2 = (int) transformedVertices[faces[i][j + 1]].getY();
 
+
                 window.drawLine(x1, y1, x2, y2);
             }
         }

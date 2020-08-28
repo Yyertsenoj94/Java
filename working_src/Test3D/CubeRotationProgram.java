@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class CubeRotationProgram {
     static double incrementScale = .002f;
     static double incrementMove = 2.0f;
-    static double incrementDegrees = 1.75f;
+    static double incrementDegrees = 2.25f;
 
     static Window window = new Window(1800, 1200);
     static double zDegrees = 0.0f;

@@ -45,6 +45,7 @@ public class Polygon2D {
                 v.setX(v.getX() * scale);
                 v.setY(v.getY() * scale);
             }
+            initLineSegments(); //REFRESH THE LINE SEGMENTS TO REFLECT NEW POINTS
     }
 
     public Vector2D[] getPoints(){

@@ -11,6 +11,10 @@ public class Point2D {
                 this.size = size;
         }
 
+        public Point2D(double x, double y){
+                this(x, y, 1);
+        }
+
         public Point2D(Vector2D vector){
                 this(vector.getX(), vector.getY(), 10);
         }
@@ -27,12 +31,20 @@ public class Point2D {
                 return y;
         }
 
+        public void setX(double value){
+                this.x = value;
+        }
+
+        public void setY(double value){
+                this.y = value;
+        }
+
         public double getSize(){
                 return size;
         }
 
         public void printPoint(){
-                System.out.print(" X: " + this.x + " Y: " + this.y);
+                System.out.println(" X: " + this.x + " Y: " + this.y);
 
         }
 }

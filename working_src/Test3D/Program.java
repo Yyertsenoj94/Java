@@ -36,17 +36,9 @@ public class Program {
         Cube3D cube = new Cube3D(cubeSize);
 //        cube.drawCube(window);
 
-        Triangle triangle = new Triangle(200);
 
 
 
-        triangle.drawTriangle(window);
-
-        Point2D point = new Point2D(triangle.getRotationPoint());
-        point.printPoint();
-        point.drawPoint(window);
-
-        triangle.printVertices();
 
         while (true){
 
@@ -64,7 +56,6 @@ public class Program {
 //            cube = new Cube3D(cubeSize);
 
             window.pause(40);
-
 
         }
 
