@@ -62,6 +62,4 @@ public abstract class Matrix {
 
     abstract void setToIdentity();
 
-    abstract Matrix getTransposedMatrix(Matrix matrix);
-
 }

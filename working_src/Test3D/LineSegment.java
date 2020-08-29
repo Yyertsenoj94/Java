@@ -1,8 +1,8 @@
 package Test3D;
 
 public class LineSegment {
-    private Point2D p1;
-    private Point2D p2;
+    private Point p1;
+    private Point p2;
     private int x1;
     private int x2;
     private int y1;
@@ -43,6 +43,6 @@ public class LineSegment {
         System.out.println("X1: " + x1);
         System.out.println("Y1: " + y1);
         System.out.println("X2: " + x2);
-        System.out.println("Y1: " + y2);
+        System.out.println("Y2: " + y2);
     }
 }

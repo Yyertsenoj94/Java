@@ -46,13 +46,13 @@ public class Program {
 
             for(int i = 0 ; i < cube.getVertices().length; i++){
 //                cube.getVertices()[i] = matrix.transformVertex(cube.getVertices()[i]);
-                cube.getVertices()[i] = Matrix3D.getProjectionVertex(cube.getVertices()[i], pm);
+                cube.getVertices()[i] = Functions.getProjectionVertex(cube.getVertices()[i], pm);
             }
 
             scanner.nextFloat();
 
             window.clearScreen();
-            cube.drawCube(window);
+            Functions.drawCube(cube);
 //            cube = new Cube3D(cubeSize);
 
             window.pause(40);

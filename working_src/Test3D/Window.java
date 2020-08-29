@@ -16,6 +16,10 @@ public class Window {
             private int windowWidth;
             private int windowHeight;
 
+            //WINDOW CENTER
+            private int wCenterX;
+            private int wCenterY;
+
             //VIEWPORT DIMENSIONS
             private int viewPortXMin;
             private int viewPortXMax;
@@ -25,8 +29,8 @@ public class Window {
             private int viewPortHeight;
 
             //CENTER OF VIEWPORT
-            private int centerX;
-            private int centerY;
+            private int vCenterX;
+            private int vCenterY;
 
             //DIMENSION FOR POINT CIRCLE
             private int pointSize;
@@ -39,6 +43,8 @@ public class Window {
             public Window(int width, int height){
                 this.windowWidth = width;
                 this.windowHeight = height;
+                this.wCenterX = width / 2;
+                this.wCenterY = height / 2;
 
                 panel = new DrawingPanel(width, height);
                 graphics = panel.getGraphics();
@@ -51,12 +57,12 @@ public class Window {
                 initKeyListeners();
                 initKeys();
 
-
             }
 
 
             // VIEWPORT FUNCTIONS
             public void setViewPort(int width, int height){
+
                     if(width > windowWidth) {
                         viewPortWidth = windowWidth; //prevent larger viewport
                     }else{
@@ -68,14 +74,43 @@ public class Window {
                     }else{
                         viewPortHeight = height;
                     }
+
                     viewPortXMin = (windowWidth - width) / 2;
                     viewPortXMax = viewPortXMin + viewPortWidth;
 
                     viewPortYMin = (windowHeight - height) / 2;
-                    viewPortYMax = (viewPortYMin + height);
+                    viewPortYMax = (viewPortYMin + viewPortHeight);
 
                     setViewCenter();
                     refreshViewPort();
+            }
+
+            public void shiftViewPort(int x, int y){
+                /*--------------Restrict the amount of shift to window boundaries--------------*/
+                if(x < 0){
+                    if(viewPortXMin + x < getXWMin())
+                        x = viewPortXMin - getXWMin();
+                }else{
+                    if(viewPortXMax + x > getXWMax())
+                        x = getXWMax() - viewPortXMax;
+                }
+
+                if (y < 0) {
+                    if(viewPortYMin + y < getYWMin())
+                        y = viewPortYMin - getYWMin();
+                }else{
+                    if(viewPortYMax + y > getYWMax())
+                        y = getYWMax() - viewPortYMax;
+                }
+                /*------------------------------------------------*/
+
+                /* Shift viewport */
+                viewPortXMin += x;
+                viewPortXMax += x;
+                viewPortYMin -= y;
+                viewPortYMax -= y;
+                setViewCenter();
+                refreshViewPort();
             }
 
             public void drawViewPortFrame(){
@@ -87,8 +122,8 @@ public class Window {
             }
 
             private void setViewCenter(){
-                this.centerX = (viewPortXMax + viewPortXMin) / 2;
-                this.centerY = (viewPortYMax + viewPortYMin) / 2;
+                this.vCenterX = (viewPortXMax + viewPortXMin) / 2;
+                this.vCenterY = (viewPortYMax + viewPortYMin) / 2;
             }
 
             private void refreshViewPort(){
@@ -119,14 +154,14 @@ public class Window {
 
            //DRAW FUNCTIONS
             public void drawPoint(double[] point){
-                int x = centerX + ((int) point[0]) - pointSize / 2;
-                int y = centerY - ((int) point[1]) - pointSize / 2;
+                int x = vCenterX + ((int) point[0]) - pointSize / 2;
+                int y = vCenterY - ((int) point[1]) - pointSize / 2;
                 int size = pointSize;
                 initPointColor();
                 graphics.fillOval(x, y, size, size);
             }
 
-            public void drawPoint(Point2D point){
+            public void drawPoint(Point point){
                 double[] p = {point.getX(), point.getY()};
                 drawPoint(p);
             }
@@ -138,10 +173,10 @@ public class Window {
 
             public void drawLine(double x1, double y1, double x2, double y2){
                 initLineColor();
-                int X1 = centerX + (int) x1;
-                int X2 = centerX + (int) x2;
-                int Y1 = centerY - (int) y1;
-                int Y2 = centerY - (int) y2;
+                int X1 = vCenterX + (int) x1;
+                int X2 = vCenterX + (int) x2;
+                int Y1 = vCenterY - (int) y1;
+                int Y2 = vCenterY - (int) y2;
                 graphics.drawLine(X1, Y1, X2, Y2);
             }
 
@@ -151,19 +186,18 @@ public class Window {
 
             public void drawXAxis(){
                 initLineColor();
-                graphics.drawLine(viewPortXMin, centerY, viewPortXMax, centerY);
+                graphics.drawLine(viewPortXMin, vCenterY, viewPortXMax, vCenterY);
             }
 
             public void drawYAxis(){
                 initLineColor();
-                graphics.drawLine(centerX, viewPortYMax, centerX, viewPortYMin);
+                graphics.drawLine(vCenterX, viewPortYMax, vCenterX, viewPortYMin);
             }
-
 
             //INITIALIZERS FOR DRAWING
             private void initLineColor(){
-        graphics.setColor(lineColor);
-    }
+                graphics.setColor(lineColor);
+            }
 
             private void initPointColor(){
                 graphics.setColor(pointColor);
@@ -193,8 +227,6 @@ public class Window {
                     key = false; // initialize all values to false.
                 }
             }
-
-
 
 
             //GETTERS
@@ -230,12 +262,20 @@ public class Window {
                 return windowHeight;
             }
 
-            public int getCenterX(){
-                return centerX;
+            public int getWCenterX(){
+                return wCenterX;
             }
 
-            public int getCenterY(){
-                return centerY;
+            public int getWCenterY(){
+                return wCenterY;
+            }
+
+            public int getVCenterX(){
+                return vCenterX;
+            }
+
+            public int getVCenterY(){
+                return vCenterY;
             }
 
             public int getPointSize(){
@@ -245,7 +285,6 @@ public class Window {
             public boolean[] getKeys(){
                 return keys;
             }
-
 
 
             //OTHER WINDOW FUNCTIONS

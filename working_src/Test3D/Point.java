@@ -1,21 +1,21 @@
 package Test3D;
 
-public class Point2D {
+public class Point {
         private double x;
         private double y;
         private double size;
 
-        public Point2D(double x, double y, double size){
+        public Point(double x, double y, double size){
                 this.x = x;
                 this.y = y;
                 this.size = size;
         }
 
-        public Point2D(double x, double y){
+        public Point(double x, double y){
                 this(x, y, 1);
         }
 
-        public Point2D(Vector2D vector){
+        public Point(Vector2D vector){
                 this(vector.getX(), vector.getY(), 10);
         }
 

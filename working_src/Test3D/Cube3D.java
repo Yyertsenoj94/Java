@@ -35,31 +35,7 @@ public class Cube3D {
         transformedVertices = vertices.clone();
     }
 
-    public void drawCube(Window window){
-        window.setLineColor(Color.MAGENTA);
-        for(int i = 0; i < faces.length; i++){
-            for(int j = 0; j < faces[i].length - 1; j++){
-                int x1 = (int) transformedVertices[faces[i][j]].getX();
-                int x2 = (int) transformedVertices[faces[i][j + 1]].getX();
-                int y1 = (int) transformedVertices[faces[i][j]].getY();
-                int y2 = (int) transformedVertices[faces[i][j + 1]].getY();
 
-
-                window.drawLine(x1, y1, x2, y2);
-            }
-        }
-
-        drawVertices(window);
-    }
-
-    private void drawVertices(Window window){
-        window.setPointSize(20);
-        window.setPointColor(Color.cyan);
-        for(Vector3D v: transformedVertices){
-            //window.setPointSize(10 + (int) getScale(v.getZ()));
-            window.drawPoint(v);
-        }
-    }
 
     private double getScale(double z){
         double minZ = getMinZ();
@@ -99,5 +75,9 @@ public class Cube3D {
 
     public Vector3D[] getTransformedVertices(){
         return transformedVertices;
+    }
+
+    public int[][] getFaces(){
+        return faces;
     }
 }

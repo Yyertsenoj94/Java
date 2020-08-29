@@ -9,7 +9,8 @@ public class CubeRotationProgram {
     static double incrementMove = 2.0f;
     static double incrementDegrees = 2.25f;
 
-    static Window window = new Window(1800, 1200);
+    static Window window = new Window(1000, 1000);
+
     static double zDegrees = 0.0f;
     static double xDegrees = 0.0f;
     static double yDegrees = 0.0f;
@@ -31,68 +32,61 @@ public class CubeRotationProgram {
 
     public static void main(String[] args) {
         window.setLineColor(Color.WHITE);
-        Matrix3D pm = new Matrix3D();
+        window.setViewPort(200, 200);
+        window.shiftViewPort(-300, -200);
+        Functions.bindWindow(window);
 
         window.clearScreen();
         window.setPointSize(50);
         window.drawXAxis();
         window.drawYAxis();
 
-        pm = pm.getPerspectiveMatrix(-800);
-
-        Matrix3D tMatrix= new Matrix3D();
-        Matrix3D sMatrix = new Matrix3D();
-
-        Matrix3D rzMatrix = new Matrix3D();
-        Matrix3D rxMatrix = new Matrix3D();
-        Matrix3D ryMatrix = new Matrix3D();
-        Matrix3D raMatrix = new Matrix3D(); //arbitrary axis
-
-        Matrix3D rMatrix = new Matrix3D();
-        Matrix3D matrix = new Matrix3D();
-
-        raMatrix.setWindow(window);
+        Matrix3D pm;
+        Matrix3D tMatrix;
+        Matrix3D sMatrix;
+        Matrix3D rzMatrix;
+        Matrix3D rxMatrix;
+        Matrix3D ryMatrix;
+        Matrix3D raMatrix;
+        Matrix3D rMatrix;
+        Matrix3D matrix;
 
         window.clearScreen();
 
         Cube3D cube = new Cube3D(cubeSize);
 
-        //double[] p1 ={cube.getVertices()[4].getX(), cube.getVertices()[4].getY(), cube.getVertices()[4].getZ(), cube.getVertices()[4].getW()};
-        //double[] p2 = {cube.getVertices()[7].getX(), cube.getVertices()[7].getY(), cube.getVertices()[7].getZ(), cube.getVertices()[7].getW()};
-
         double[] p1 = {0, -200, 300};
         double[] p2 = {0, 200, 300};
+        Functions.drawCube(cube);
 
-        cube.drawCube(window);
         while (true){
-
             getKeys();
+            tMatrix = Functions.getTranslationMatrix(horizontalMovement, verticalMovement, 1);
+            sMatrix = Functions.getScaleMatrix(scale, scale, scale);
 
-            tMatrix = tMatrix.getTranslationMatrix(horizontalMovement, verticalMovement, 1);
-            sMatrix = sMatrix.getScaleMatrix(scale, scale, scale);
-            rzMatrix = rzMatrix.getRotationByAngle(Matrix.AXIS.Z_AXIS, zDegrees);
-            rxMatrix = rxMatrix.getRotationByAngle(Matrix.AXIS.X_AXIS, xDegrees);
-            ryMatrix = ryMatrix.getRotationByAngle(Matrix.AXIS.Y_AXIS, yDegrees);
-            rMatrix = rMatrix.combine3Matrices(rzMatrix, rxMatrix, ryMatrix);
-            raMatrix = raMatrix.getArbitraryRotationMatrix(p1, p2, aDegrees);
-            rMatrix = rMatrix.combine2Matrices(rMatrix, raMatrix);
+            rzMatrix = Functions.getRotationByAngle(Matrix.AXIS.Z_AXIS, zDegrees);
+            rxMatrix = Functions.getRotationByAngle(Matrix.AXIS.X_AXIS, xDegrees);
+            ryMatrix = Functions.getRotationByAngle(Matrix.AXIS.Y_AXIS, yDegrees);
+            rMatrix = Functions.combine3Matrices(rzMatrix, rxMatrix, ryMatrix);
 
-            matrix = matrix.combine3Matrices(sMatrix, rMatrix, tMatrix);
+            raMatrix = Functions.getArbitraryRotationMatrix(p1, p2, aDegrees);
+            rMatrix = Functions.combine2Matrices(rMatrix, raMatrix);
+            matrix = Functions.combine3Matrices(sMatrix, rMatrix, tMatrix);
+
+            pm = Functions.getPerspectiveMatrix(-800);
             /*
                    Project each vertex from 3d space to 2d Space
              */
-
             for(int i = 0 ; i < cube.getVertices().length; i++){
-                cube.getTransformedVertices()[i] = matrix.transformVertex(cube.getVertices()[i]);
-                cube.getTransformedVertices()[i] = Matrix3D.getProjectionVertex(cube.getTransformedVertices()[i], pm);
+                cube.getTransformedVertices()[i] = Functions.transformVertex(cube.getVertices()[i], matrix);
+                cube.getTransformedVertices()[i] = Functions.getProjectionVertex(cube.getTransformedVertices()[i], pm);
             }
 
-            window.clearScreen();
-
-            cube.drawCube(window);
-
+            window.clearScreen(); //refresh screen
+            Functions.drawCube(cube);
             window.pause(40);
 
+            //Reset matrices to identity
             rzMatrix.setToIdentity();
             rxMatrix.setToIdentity();
             ryMatrix.setToIdentity();
@@ -101,7 +95,6 @@ public class CubeRotationProgram {
             tMatrix.setToIdentity();
             matrix.setToIdentity();
             sMatrix.setToIdentity();
-
         }
     }
     public static void randMove(){
@@ -158,7 +151,7 @@ public class CubeRotationProgram {
     public static void getKeys(){
 
         if(window.getKeys()[KeyEvent.VK_UP]){
-            verticalMovement -= incrementMove;
+            verticalMovement += incrementMove;
         }
 
         if(window.getKeys()[KeyEvent.VK_LEFT]){
@@ -166,7 +159,7 @@ public class CubeRotationProgram {
         }
 
         if(window.getKeys()[KeyEvent.VK_DOWN]){
-            verticalMovement += incrementMove;
+            verticalMovement -= incrementMove;
         }
 
         if(window.getKeys()[KeyEvent.VK_N]){
