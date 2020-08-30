@@ -1,49 +1,54 @@
 package Test3D;
 public class Vector3D {
 
-        private double[] point = new double[4];
+        private double[] points = new double[4];
 
         public Vector3D(double x, double y, double z){
-                point[0] = x;
-                point[1] = y;
-                point[2] = z;
-                point[3] = 1.0f;
+                points[0] = x;
+                points[1] = y;
+                points[2] = z;
+                points[3] = 1.0f;
         }
 
-        private Vector3D(){
+        public Vector3D (double[] points){
+                this(points[0], points[1], points[2]);
+        }
+
+        public Vector3D(){
                 this(0.0f, 0.0f, 0.0f);
-                point[3] = 0.0f;
+                points[3] = 0.0f;
         }
 
         public static Vector3D getBlankVector(){
                 return new Vector3D();
         }
 
+
         public void setX(double x){
-                point[0] = x;
+                points[0] = x;
         }
 
         public void setY(double y){
-                point[1] = y;
+                points[1] = y;
         }
 
         public void setZ(double z){
-                point[2] = z;
+                points[2] = z;
         }
 
         public double getX(){
-                return point[0];
+                return points[0];
         }
 
         public double getY(){
-                 return point[1];
+                 return points[1];
         }
 
         public double getZ(){
-                return point[2];
+                return points[2];
         }
 
-        public double getW() { return  point[3]; }
+        public double getW() { return  points[3]; }
 
         public double getMagnitude(){
                 double x = getX();
@@ -71,16 +76,6 @@ public class Vector3D {
                return unitVector;
         }
 
-        public static Vector3D getCrossProductVector(Vector3D aVector, Vector3D bVector){
-               Vector3D crossProductVector = new Vector3D(0.0f, 0.0f, 0.0f);
-
-                crossProductVector.setX(aVector.getY() * (bVector.getZ() - aVector.getZ()) * bVector.getY());
-                crossProductVector.setY(aVector.getZ() * (bVector.getX() - aVector.getX()) * bVector.getZ());
-                crossProductVector.setZ(aVector.getX() * (bVector.getY() - aVector.getY() * bVector.getX()));
-
-               return crossProductVector;
-        }
-
         public double getDotProduct(Vector3D aVector, Vector3D bVector){
                 return aVector.getX() * bVector.getX() + aVector.getY() * bVector.getY() + aVector.getZ() * bVector.getZ();
         }
@@ -98,7 +93,7 @@ public class Vector3D {
         }
 
         public double[] getArray(){
-                return point;
+                return points;
         }
 
         public void printVector(){

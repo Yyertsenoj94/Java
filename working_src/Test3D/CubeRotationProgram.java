@@ -32,8 +32,7 @@ public class CubeRotationProgram {
 
     public static void main(String[] args) {
         window.setLineColor(Color.WHITE);
-        window.setViewPort(200, 200);
-        window.shiftViewPort(-300, -200);
+        window.setViewPort(1000, 1000);
         Functions.bindWindow(window);
 
         window.clearScreen();
@@ -51,12 +50,16 @@ public class CubeRotationProgram {
         Matrix3D rMatrix;
         Matrix3D matrix;
 
+        Vector3D cameraOrigin = new Vector3D(-80, 30, -60);
+
+        Matrix3D cMatrix = Functions.getCameraMatrix(cameraOrigin);
+
         window.clearScreen();
 
         Cube3D cube = new Cube3D(cubeSize);
 
-        double[] p1 = {0, -200, 300};
-        double[] p2 = {0, 200, 300};
+        double[] p1 = {0, 0, -300};
+        double[] p2 = {0, 200, -300};
         Functions.drawCube(cube);
 
         while (true){
@@ -72,8 +75,8 @@ public class CubeRotationProgram {
             raMatrix = Functions.getArbitraryRotationMatrix(p1, p2, aDegrees);
             rMatrix = Functions.combine2Matrices(rMatrix, raMatrix);
             matrix = Functions.combine3Matrices(sMatrix, rMatrix, tMatrix);
-
-            pm = Functions.getPerspectiveMatrix(-800);
+            matrix = Functions.combine2Matrices(matrix, cMatrix);
+            pm = Functions.getPerspectiveMatrix(1000); //put this at positive since we're supposed to be using a left hand system?
             /*
                    Project each vertex from 3d space to 2d Space
              */

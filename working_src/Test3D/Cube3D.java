@@ -1,6 +1,5 @@
 package Test3D;
 
-import java.awt.*;
 
 public class Cube3D {
 
@@ -36,32 +35,6 @@ public class Cube3D {
     }
 
 
-
-    private double getScale(double z){
-        double minZ = getMinZ();
-        double maxZ = getMaxZ();
-        return 50 * (z - minZ) / (maxZ - minZ);
-    }
-
-    private double getMinZ(){
-        double minZ = transformedVertices[0].getZ();
-        for(Vector3D v: transformedVertices){
-            if(v.getZ() < minZ){
-                minZ = v.getZ();
-            }
-        }
-        return minZ;
-    }
-
-    private double getMaxZ(){
-        double maxZ = transformedVertices[0].getZ();
-        for(Vector3D v: transformedVertices){
-            if(v.getZ() > maxZ){
-                maxZ = v.getZ();
-            }
-        }
-        return maxZ;
-    }
 
     public void printVertices(Vector3D[] vertices){
        for(Vector3D v: vertices){ ;

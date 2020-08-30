@@ -34,6 +34,15 @@ public final class Functions {
         clipLine(s);
     }
 
+    public static void drawVector(Vector3D origin, Vector3D end){
+        if(origin == null){
+            origin = new Vector3D(0, 0, 1);
+        }
+
+        LineSegment l1 = new LineSegment(origin.getX(), origin.getY(), end.getX(), end.getY());
+        drawLine(l1);
+    }
+
     public static void drawCube(Cube3D cube){
         WINDOW.setLineColor(Color.MAGENTA);
         for(int i = 0; i < cube.getFaces().length; i++){
@@ -48,18 +57,49 @@ public final class Functions {
                 // window.drawLine(x1, y1, x2, y2);
             }
         }
-        //drawVertices(window);
+        //drawVertices(cube.getTransformedVertices());
     }
 
-    public static void drawVertices(Cube3D cube){
+    public static void drawVertices(Vector3D[] vertices){
+        double minZ = getMinZ(vertices);
+        double maxZ = getMaxZ(vertices);
+        double scale;
+
         WINDOW.setPointSize(20);
         WINDOW.setPointColor(Color.cyan);
-        for(Vector3D v: cube.getTransformedVertices()){
-            //window.setPointSize(10 + (int) getScale(v.getZ()));
+        for(Vector3D v: vertices){
+            scale = 30 * (v.getZ() - minZ) / (maxZ - minZ);
+            if(v.getZ() < 0){
+                WINDOW.setPointColor(Color.RED);
+            }else{
+                WINDOW.setPointColor(Color.BLUE);
+            }
+            WINDOW.setPointSize(5 + (int) scale);
             WINDOW.drawPoint(v);
         }
+
     } //TODO CONFIRM THIS WORKS
     /* --------------------------------------------------------------------------------------*/
+
+    private static double getMinZ(Vector3D[] vertices){
+        double minZ = vertices[0].getZ();
+        for(Vector3D v: vertices){
+            if(v.getZ() < minZ){
+                minZ = v.getZ();
+            }
+        }
+        return minZ;
+    }
+
+    private static double getMaxZ(Vector3D[] vertices){
+        double maxZ = vertices[0].getZ();
+        for(Vector3D v: vertices){
+            if(v.getZ() > maxZ){
+                maxZ = v.getZ();
+            }
+        }
+        return maxZ;
+    }
 
 
     /* Clipping Functions
@@ -342,7 +382,6 @@ public final class Functions {
         return m;
     }
 
-
     public static Matrix3D getRotationByTrigRatio(Matrix.AXIS axis, double sin, double cos){
         Matrix3D rotationMatrix = new Matrix3D();
         if(axis == Matrix.AXIS.X_AXIS) {
@@ -365,7 +404,6 @@ public final class Functions {
         }
         return rotationMatrix;
     }
-
 
     public static Matrix3D getRotationByAngle(Matrix.AXIS axis, double angle) {
         Matrix3D rotationMatrix = new Matrix3D();
@@ -392,7 +430,6 @@ public final class Functions {
         return rotationMatrix;
     }
 
-
     public static Matrix3D getPerspectiveMatrix(double projectionDistance){
         //FIXME _ THIS MIGHT NEED TO BE UNDONE - I don't see the benefit in actually setting z to 0 since we don't use it when drawing.
         Matrix3D perspectiveMatrix = new Matrix3D();
@@ -401,7 +438,6 @@ public final class Functions {
 
         return perspectiveMatrix;
     }
-
 
     public static Matrix3D getTransposedMatrix(Matrix matrix){
         double[][] transpose = new double[4][4];
@@ -413,6 +449,83 @@ public final class Functions {
         }
 
         return new Matrix3D(transpose);
+    }
+
+    public static Matrix3D getCameraMatrix(Vector3D viewOrigin){
+        double a;
+        double b;
+        double c;
+        double d;
+        double sin;
+        double cos;
+        Matrix3D tempRotation = new Matrix3D();
+        Matrix3D c_matrix = new Matrix3D();
+
+        /*
+           1. Camera Normal (looking at direction)
+           2. Camera View Up (Up orientation for camera)
+           3. Camera Positive X axis
+         */
+
+        Vector3D n_Vector;
+        Vector3D v_Vector;
+        Vector3D u_Vector;
+        Vector3D ARBITRARY_UP = new Vector3D(0, 1, 0);
+
+       //Step 1: Calculate the Normal vector
+        n_Vector = new Vector3D(-viewOrigin.getX(), -viewOrigin.getY(), -viewOrigin.getZ());
+
+       //Step 2: Translate viewOrigin back to world Origin (0, 0, 0);
+       c_matrix = getTranslationMatrix(-viewOrigin.getX(), -viewOrigin.getY(), -viewOrigin.getZ());
+
+       //convert to unit vector for angle calculations;
+       n_Vector = n_Vector.getUnitVector();
+
+       //Step 3: Find the X axis vector. We need an arbitrary vertical vector to find the perpendicular.
+       u_Vector = Functions.getCrossProductVector(n_Vector, ARBITRARY_UP);
+
+       //Step 4: Calculate the camera UP (VIEW) vector by cross product of N and U
+        v_Vector = Functions.getCrossProductVector(u_Vector, n_Vector);
+
+        System.out.print("N vector is ");
+        n_Vector.printVector();
+
+        System.out.println("U vector is ");
+        u_Vector.printVector();
+
+        System.out.println("V vector is ");
+        v_Vector.printVector();
+
+        n_Vector.setZ(-n_Vector.getZ()); //reflect across xy plane (make z point other direction)
+
+        a = n_Vector.getX();
+        b = n_Vector.getY();
+        c = n_Vector.getZ();
+
+        //step 5: rotate N around x onto the xz plane
+        d = Math.sqrt((b*b) + c*c);
+        if(d != 0){
+            sin = b / d;
+            cos = c / d;
+            tempRotation = getRotationByTrigRatio(Matrix.AXIS.X_AXIS, sin, cos);
+        }
+        c_matrix = combine2Matrices(c_matrix, tempRotation);
+        tempRotation.setToIdentity();
+
+        //step 6: rotate N onto the z axis
+        sin = -a;
+        cos = d;
+        tempRotation = getRotationByTrigRatio(Matrix.AXIS.Y_AXIS, sin, cos);
+        c_matrix = combine2Matrices(c_matrix, tempRotation);
+        tempRotation.setToIdentity();
+
+        //step 7: rotate around z axis to get y and aligned with world y and x
+        cos = u_Vector.getX();
+        sin = u_Vector.getY();
+        tempRotation = getRotationByTrigRatio(Matrix.AXIS.Z_AXIS, sin, cos);
+        c_matrix = combine2Matrices(c_matrix, tempRotation);
+
+        return c_matrix;
     }
     /*-------------------------------------------------------------------------------------------------------*/
 
@@ -437,7 +550,15 @@ public final class Functions {
         return projectedVertex;
     }
 
+    public static Vector3D getCrossProductVector(Vector3D aVector, Vector3D bVector){
+        Vector3D crossProductVector = new Vector3D(0.0f, 0.0f, 0.0f);
 
+        crossProductVector.setX((aVector.getY() * bVector.getZ()) - (aVector.getZ() * bVector.getY()));
+        crossProductVector.setY((aVector.getZ() * bVector.getX()) - (aVector.getX()) * bVector.getZ());
+        crossProductVector.setZ((aVector.getX() * bVector.getY()) - (aVector.getY() * bVector.getX()));
+
+        return crossProductVector;
+    }
 
 
 
