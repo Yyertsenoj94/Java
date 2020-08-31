@@ -463,6 +463,23 @@ public final class Functions {
         return perspectiveMatrix;
     }
 
+    public static Matrix3D getViewProjectionMatrix(double dNear, double dFar, double viewMax, double viewMin){
+        Matrix3D vMatrix = new Matrix3D();
+        double windowXRange = WINDOW.getXWMax() - WINDOW.getXWMin();
+        double windowYRange = WINDOW.getYWMax() - WINDOW.getYWMin();
+        double windowZRange = dFar - dNear;
+
+        double viewXRange = WINDOW.getXVMax() - WINDOW.getXVMin();
+        double viewYRange = WINDOW.getYVMax() - WINDOW.getYVMin();
+        double viewZRange = viewMax - viewMin;
+
+        vMatrix.matrix[0][0] = viewXRange / windowXRange;
+        vMatrix.matrix[1][1] = viewYRange / windowYRange;
+        vMatrix.matrix[2][2] = viewZRange / windowZRange;
+
+        return vMatrix;
+    }
+
     public static Matrix3D getTransposedMatrix(Matrix matrix){
         double[][] transpose = new double[4][4];
 
@@ -482,29 +499,27 @@ public final class Functions {
         double d;
         double sin;
         double cos;
-        Matrix3D temp = new Matrix3D();
-        Matrix3D c_matrix = new Matrix3D();
 
-        /*
-           1. Camera Normal (looking at direction)
-           2. Camera View Up (Up orientation for camera)
-           3. Camera Positive X axis
-         */
+        Matrix3D temp = new Matrix3D(); //used for each type of matrix applied (translation, rotation)
+        Matrix3D c_matrix = new Matrix3D(); //the accumulative matrix of the temp matrices.
 
-        Vector3D n_Vector;
-        Vector3D v_Vector;
-        Vector3D u_Vector;
-        Vector3D ARBITRARY_UP = new Vector3D(0, 1, 0);
 
-       //Step 1: Calculate the Normal vector (facing away from world)
-        n_Vector = new Vector3D(viewOrigin.getX(), viewOrigin.getY(), viewOrigin.getZ());
+        Vector3D n_Vector; //Look at direction
+        Vector3D v_Vector; //Camera's up orientation relative to the look at vector
+        Vector3D u_Vector; //Camera's positive x axis
+        Vector3D ARBITRARY_UP = new Vector3D(0, 1, 0); //needed to calculate the u_vector (x axis)
 
-       //Step 3: Translate viewOrigin back to world Origin (0, 0, 0);
+
+       //Step 2: Translate viewOrigin back to world Origin (0, 0, 0);
        temp = getTranslationMatrix(-viewOrigin.getX(), -viewOrigin.getY(), -viewOrigin.getZ());
        temp.setToIdentity();
 
        //convert to unit vector for angle calculations;
-      // n_Vector = new Vector3D(0, 0, 1);
+       // n_Vector = new Vector3D(0, 0, 1); //TODO if you want to modify your view angle, make the n_vector a parameter.
+        //Calculate the Normal vector (facing away from world)
+       n_Vector = new Vector3D(viewOrigin.getX(), viewOrigin.getY(), viewOrigin.getZ());
+
+       //change to unit vector
        n_Vector = n_Vector.getUnitVector();
 
        //Step 3: Find the X axis vector. We need an arbitrary vertical vector to find the perpendicular.
@@ -512,17 +527,6 @@ public final class Functions {
 
        //Step 4: Calculate the camera UP (VIEW) vector by cross product of N and U
         v_Vector = Functions.getCrossProductVector(n_Vector, u_Vector);
-
-        System.out.print("N vector is ");
-        n_Vector.printVector();
-
-        System.out.println("U vector is ");
-        u_Vector.printVector();
-
-        System.out.println("V vector is ");
-        v_Vector.printVector();
-
-        //n_Vector.setZ(-n_Vector.getZ()); //reflect across xy plane (make z point other direction)
 
         a = n_Vector.getX();
         b = n_Vector.getY();
@@ -537,26 +541,14 @@ public final class Functions {
         }
 
         c_matrix = combine2Matrices(c_matrix, temp);
-
-        System.out.println("Combine with X Rotation");
-        c_matrix.printMatrix();
-
         temp.setToIdentity();
-
-        System.out.println("Temp after reset from x Rotation");
-        temp.printMatrix();
 
         //step 6: rotate N onto the z axis
         sin = -a;
         cos = d;
         temp = getRotationByTrigRatio(Matrix.AXIS.Y_AXIS, sin, cos);
         c_matrix = combine2Matrices(c_matrix, temp);
-        System.out.println("Combine with Y Rotation");
-        c_matrix.printMatrix();
         temp.setToIdentity();
-
-        System.out.println("Temp after reset from y Rotation");
-        temp.printMatrix();
 
         //step 7: rotate around z axis to get y and aligned with world y and x
         cos = u_Vector.getX();

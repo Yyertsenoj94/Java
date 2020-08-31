@@ -5,6 +5,12 @@ import java.awt.event.KeyEvent;
 import java.util.Scanner;
 
 public class CubeRotationProgram {
+    static double distanceNear = 10;
+    static double distanceFar = 100;
+    static double viewMax = 2;
+    static double viewMin = 10;
+
+
     static double incrementScale = .002f;
     static double incrementMove = 2.0f;
     static double incrementDegrees = 2.25f;
@@ -32,7 +38,7 @@ public class CubeRotationProgram {
 
     public static void main(String[] args) {
         window.setLineColor(Color.WHITE);
-        window.setViewPort(1000, 1000);
+        window.setViewPort(800, 800);
         Functions.bindWindow(window);
 
         window.clearScreen();
@@ -48,12 +54,16 @@ public class CubeRotationProgram {
         Matrix3D ryMatrix;
         Matrix3D raMatrix;
         Matrix3D rMatrix;
+        Matrix3D cMatrix;
+        Matrix3D vpMatrix;
         Matrix3D matrix;
 
-        Vector3D cameraOrigin = new Vector3D(10, 10, 20);
+        Vector3D cameraOrigin = new Vector3D(0, 0, 800);
 
-        Matrix3D cMatrix = Functions.getCameraMatrix(cameraOrigin);
-
+        cMatrix = Functions.getCameraMatrix(cameraOrigin);
+        vpMatrix = Functions.getViewProjectionMatrix(distanceNear, distanceFar, viewMax, viewMin);
+        System.out.println("Vp matrix");
+        vpMatrix.printMatrix();
         window.clearScreen();
 
         Cube3D cube = new Cube3D(cubeSize);
@@ -72,11 +82,14 @@ public class CubeRotationProgram {
             ryMatrix = Functions.getRotationByAngle(Matrix.AXIS.Y_AXIS, yDegrees);
             rMatrix = Functions.combine3Matrices(rzMatrix, rxMatrix, ryMatrix);
 
-            //raMatrix = Functions.getArbitraryRotationMatrix(p1, p2, aDegrees);
-          //  rMatrix = Functions.combine2Matrices(rMatrix, raMatrix);
+            raMatrix = Functions.getArbitraryRotationMatrix(p1, p2, aDegrees);
+            rMatrix = Functions.combine2Matrices(rMatrix, raMatrix);
             matrix = Functions.combine3Matrices(sMatrix, rMatrix, tMatrix);
             matrix = Functions.combine2Matrices(matrix, cMatrix);
-            pm = Functions.getPerspectiveMatrix(-600); //put this at positive since we're supposed to be using a left hand system?
+            //matrix = Functions.combine2Matrices(matrix, vpMatrix);
+
+            //This needs to be negative for right handed coordinate system (positive z comes toward you, everything else lives in negative.)
+            pm = Functions.getPerspectiveMatrix(-800);
             /*
                    Project each vertex from 3d space to 2d Space
              */
@@ -88,18 +101,6 @@ public class CubeRotationProgram {
             window.clearScreen(); //refresh screen
             Functions.drawCube(cube);
             window.pause(40);
-
-            //Reset matrices to identity
-            /*
-            rzMatrix.setToIdentity();
-            rxMatrix.setToIdentity();
-            ryMatrix.setToIdentity();
-            rMatrix.setToIdentity();
-            raMatrix.setToIdentity();
-            tMatrix.setToIdentity();
-            matrix.setToIdentity();
-            sMatrix.setToIdentity();
-             */
         }
     }
     public static void randMove(){
