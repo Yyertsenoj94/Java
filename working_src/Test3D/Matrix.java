@@ -24,13 +24,23 @@ public abstract class Matrix {
 
 
     public void set3DMatrix(){
-        this.matrix = matrix3D;
+        this.matrix = clone(matrix3D);
         columns = 4;
         rows = 4;
     }
 
+    private static double[][] clone(double[][] matrix){
+        double[][] cloneArray = new double[matrix.length][matrix[0].length];
+       for(int i = 0; i < matrix.length; i++){
+           for(int j = 0; j < matrix[i].length; j++){
+              cloneArray[i][j] = matrix[i][j];
+           }
+       }
+       return cloneArray;
+    }
+
     public void set2DMatrix(){
-        this.matrix = matrix2D;
+        this.matrix = clone(matrix2D);
         columns = 3;
         rows = 3;
     }

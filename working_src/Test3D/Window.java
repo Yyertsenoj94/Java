@@ -128,8 +128,8 @@ public class Window {
 
             private void refreshViewPort(){
                 drawViewPortFrame();
-                drawXAxis();
-                drawYAxis();
+                //drawXAxis();
+                //drawYAxis();
             }
 
 
@@ -186,12 +186,14 @@ public class Window {
 
             public void drawXAxis(){
                 initLineColor();
-                graphics.drawLine(viewPortXMin, vCenterY, viewPortXMax, vCenterY);
+                graphics.drawLine(viewPortXMin, vCenterY, vCenterX, vCenterY);
+                graphics.drawLine(vCenterX, vCenterY, viewPortXMax, vCenterY);
             }
 
             public void drawYAxis(){
                 initLineColor();
-                graphics.drawLine(vCenterX, viewPortYMax, vCenterX, viewPortYMin);
+                graphics.drawLine(vCenterX, viewPortYMin, vCenterX, vCenterY);
+                graphics.drawLine(vCenterX, vCenterY, vCenterX, viewPortYMax);
             }
 
             //INITIALIZERS FOR DRAWING

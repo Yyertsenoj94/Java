@@ -76,6 +76,14 @@ public class Vector3D {
                return unitVector;
         }
 
+        public Vector3D addToVector(Vector3D v, Vector3D add){
+                Vector3D nVector = new Vector3D();
+             nVector.setX(v.getX() + add.getX());
+             nVector.setY(v.getY() + add.getY());
+             nVector.setZ(v.getZ() + add.getZ());
+            return nVector;
+        }
+
         public double getDotProduct(Vector3D aVector, Vector3D bVector){
                 return aVector.getX() * bVector.getX() + aVector.getY() * bVector.getY() + aVector.getZ() * bVector.getZ();
         }

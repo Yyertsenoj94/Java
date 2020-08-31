@@ -54,18 +54,17 @@ public final class Functions {
 
                 LineSegment temp =  new LineSegment(x1, y1, x2, y2);
                 Functions.drawLine(temp);
-                // window.drawLine(x1, y1, x2, y2);
             }
         }
-        //drawVertices(cube.getTransformedVertices());
+        drawVertices(cube);
     }
 
-    public static void drawVertices(Vector3D[] vertices){
+    public static void drawScaledVertices(Vector3D[] vertices){
         double minZ = getMinZ(vertices);
         double maxZ = getMaxZ(vertices);
         double scale;
 
-        WINDOW.setPointSize(20);
+        WINDOW.setPointSize(50);
         WINDOW.setPointColor(Color.cyan);
         for(Vector3D v: vertices){
             scale = 30 * (v.getZ() - minZ) / (maxZ - minZ);
@@ -79,7 +78,32 @@ public final class Functions {
         }
 
     } //TODO CONFIRM THIS WORKS
+
+    private static void drawVertices(Cube3D cube){
+        Color color;
+        WINDOW.setPointSize(20);
+        for(int i = 0; i < cube.getVertices().length; i++){
+
+            switch(i){
+                case 0:
+                    color = Color.BLUE;
+                    break;
+                case 2:
+                    color = Color.GREEN;
+                    break;
+                case 3:
+                    color = Color.RED;
+                    break;
+                default:
+                    color = Color.white;
+            }
+                WINDOW.setPointColor(color);
+                Point p = new Point(cube.getTransformedVertices()[i].getX(), cube.getTransformedVertices()[i].getY());
+                WINDOW.drawPoint(p);
+        }
+    }
     /* --------------------------------------------------------------------------------------*/
+
 
     private static double getMinZ(Vector3D[] vertices){
         double minZ = vertices[0].getZ();
@@ -458,7 +482,7 @@ public final class Functions {
         double d;
         double sin;
         double cos;
-        Matrix3D tempRotation = new Matrix3D();
+        Matrix3D temp = new Matrix3D();
         Matrix3D c_matrix = new Matrix3D();
 
         /*
@@ -472,20 +496,22 @@ public final class Functions {
         Vector3D u_Vector;
         Vector3D ARBITRARY_UP = new Vector3D(0, 1, 0);
 
-       //Step 1: Calculate the Normal vector
-        n_Vector = new Vector3D(-viewOrigin.getX(), -viewOrigin.getY(), -viewOrigin.getZ());
+       //Step 1: Calculate the Normal vector (facing away from world)
+        n_Vector = new Vector3D(viewOrigin.getX(), viewOrigin.getY(), viewOrigin.getZ());
 
-       //Step 2: Translate viewOrigin back to world Origin (0, 0, 0);
-       c_matrix = getTranslationMatrix(-viewOrigin.getX(), -viewOrigin.getY(), -viewOrigin.getZ());
+       //Step 3: Translate viewOrigin back to world Origin (0, 0, 0);
+       temp = getTranslationMatrix(-viewOrigin.getX(), -viewOrigin.getY(), -viewOrigin.getZ());
+       temp.setToIdentity();
 
        //convert to unit vector for angle calculations;
+      // n_Vector = new Vector3D(0, 0, 1);
        n_Vector = n_Vector.getUnitVector();
 
        //Step 3: Find the X axis vector. We need an arbitrary vertical vector to find the perpendicular.
-       u_Vector = Functions.getCrossProductVector(n_Vector, ARBITRARY_UP);
+       u_Vector = Functions.getCrossProductVector(ARBITRARY_UP, n_Vector);
 
        //Step 4: Calculate the camera UP (VIEW) vector by cross product of N and U
-        v_Vector = Functions.getCrossProductVector(u_Vector, n_Vector);
+        v_Vector = Functions.getCrossProductVector(n_Vector, u_Vector);
 
         System.out.print("N vector is ");
         n_Vector.printVector();
@@ -496,7 +522,7 @@ public final class Functions {
         System.out.println("V vector is ");
         v_Vector.printVector();
 
-        n_Vector.setZ(-n_Vector.getZ()); //reflect across xy plane (make z point other direction)
+        //n_Vector.setZ(-n_Vector.getZ()); //reflect across xy plane (make z point other direction)
 
         a = n_Vector.getX();
         b = n_Vector.getY();
@@ -507,23 +533,42 @@ public final class Functions {
         if(d != 0){
             sin = b / d;
             cos = c / d;
-            tempRotation = getRotationByTrigRatio(Matrix.AXIS.X_AXIS, sin, cos);
+            temp = getRotationByTrigRatio(Matrix.AXIS.X_AXIS, sin, cos);
         }
-        c_matrix = combine2Matrices(c_matrix, tempRotation);
-        tempRotation.setToIdentity();
+
+        c_matrix = combine2Matrices(c_matrix, temp);
+
+        System.out.println("Combine with X Rotation");
+        c_matrix.printMatrix();
+
+        temp.setToIdentity();
+
+        System.out.println("Temp after reset from x Rotation");
+        temp.printMatrix();
 
         //step 6: rotate N onto the z axis
         sin = -a;
         cos = d;
-        tempRotation = getRotationByTrigRatio(Matrix.AXIS.Y_AXIS, sin, cos);
-        c_matrix = combine2Matrices(c_matrix, tempRotation);
-        tempRotation.setToIdentity();
+        temp = getRotationByTrigRatio(Matrix.AXIS.Y_AXIS, sin, cos);
+        c_matrix = combine2Matrices(c_matrix, temp);
+        System.out.println("Combine with Y Rotation");
+        c_matrix.printMatrix();
+        temp.setToIdentity();
+
+        System.out.println("Temp after reset from y Rotation");
+        temp.printMatrix();
 
         //step 7: rotate around z axis to get y and aligned with world y and x
         cos = u_Vector.getX();
-        sin = u_Vector.getY();
-        tempRotation = getRotationByTrigRatio(Matrix.AXIS.Z_AXIS, sin, cos);
-        c_matrix = combine2Matrices(c_matrix, tempRotation);
+        sin = u_Vector.getY(); //FIXME - try negative here
+        temp = getRotationByTrigRatio(Matrix.AXIS.Z_AXIS, sin, cos);
+        c_matrix = combine2Matrices(c_matrix, temp);
+        System.out.println("Combine with Z Rotation");
+        c_matrix.printMatrix();
+        temp.setToIdentity();
+
+        System.out.println("Temp after reset from z Rotation");
+        temp.printMatrix();
 
         return c_matrix;
     }

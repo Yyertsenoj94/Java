@@ -50,7 +50,7 @@ public class CubeRotationProgram {
         Matrix3D rMatrix;
         Matrix3D matrix;
 
-        Vector3D cameraOrigin = new Vector3D(-80, 30, -60);
+        Vector3D cameraOrigin = new Vector3D(10, 10, 20);
 
         Matrix3D cMatrix = Functions.getCameraMatrix(cameraOrigin);
 
@@ -58,8 +58,8 @@ public class CubeRotationProgram {
 
         Cube3D cube = new Cube3D(cubeSize);
 
-        double[] p1 = {0, 0, -300};
-        double[] p2 = {0, 200, -300};
+        double[] p1 = {100, 100, -50};
+        double[] p2 = {-200, 200, -300};
         Functions.drawCube(cube);
 
         while (true){
@@ -72,11 +72,11 @@ public class CubeRotationProgram {
             ryMatrix = Functions.getRotationByAngle(Matrix.AXIS.Y_AXIS, yDegrees);
             rMatrix = Functions.combine3Matrices(rzMatrix, rxMatrix, ryMatrix);
 
-            raMatrix = Functions.getArbitraryRotationMatrix(p1, p2, aDegrees);
-            rMatrix = Functions.combine2Matrices(rMatrix, raMatrix);
+            //raMatrix = Functions.getArbitraryRotationMatrix(p1, p2, aDegrees);
+          //  rMatrix = Functions.combine2Matrices(rMatrix, raMatrix);
             matrix = Functions.combine3Matrices(sMatrix, rMatrix, tMatrix);
             matrix = Functions.combine2Matrices(matrix, cMatrix);
-            pm = Functions.getPerspectiveMatrix(1000); //put this at positive since we're supposed to be using a left hand system?
+            pm = Functions.getPerspectiveMatrix(-600); //put this at positive since we're supposed to be using a left hand system?
             /*
                    Project each vertex from 3d space to 2d Space
              */
@@ -90,6 +90,7 @@ public class CubeRotationProgram {
             window.pause(40);
 
             //Reset matrices to identity
+            /*
             rzMatrix.setToIdentity();
             rxMatrix.setToIdentity();
             ryMatrix.setToIdentity();
@@ -98,6 +99,7 @@ public class CubeRotationProgram {
             tMatrix.setToIdentity();
             matrix.setToIdentity();
             sMatrix.setToIdentity();
+             */
         }
     }
     public static void randMove(){

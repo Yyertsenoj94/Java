@@ -25,16 +25,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8bdd2d51-fcd8-401d-bbfa-694fcb1fa5bc" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Test3D/VectorTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../out/working_src/prod/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../out/working_src/prod/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../out/working_src/prod/Test3D/Program.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../out/working_src/prod/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../out/working_src/prod/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Test3D/Cube3D.java" beforeDir="false" afterPath="$PROJECT_DIR$/Test3D/Cube3D.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Test3D/CubeRotationProgram.java" beforeDir="false" afterPath="$PROJECT_DIR$/Test3D/CubeRotationProgram.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Test3D/Functions.java" beforeDir="false" afterPath="$PROJECT_DIR$/Test3D/Functions.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Test3D/Program.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Test3D/Matrix.java" beforeDir="false" afterPath="$PROJECT_DIR$/Test3D/Matrix.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Test3D/Matrix3D.java" beforeDir="false" afterPath="$PROJECT_DIR$/Test3D/Matrix3D.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Test3D/Vector3D.java" beforeDir="false" afterPath="$PROJECT_DIR$/Test3D/Vector3D.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Test3D/VectorTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/Test3D/VectorTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Test3D/Window.java" beforeDir="false" afterPath="$PROJECT_DIR$/Test3D/Window.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -224,7 +222,8 @@
       <workItem from="1598210531155" duration="12641000" />
       <workItem from="1598587018759" duration="9532000" />
       <workItem from="1598640035690" duration="20625000" />
-      <workItem from="1598741709408" duration="23214000" />
+      <workItem from="1598741709408" duration="23343000" />
+      <workItem from="1598815900210" duration="11396000" />
     </task>
     <servers />
   </component>
@@ -279,56 +278,56 @@
       <screen x="0" y="0" width="1842" height="1080" />
     </state>
     <state x="651" y="287" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1842.1080@0.0.1842.1080" timestamp="1598596286870" />
-    <state width="418" height="507" key="DebuggerActiveHint" timestamp="1598746663580">
+    <state width="457" height="559" key="DebuggerActiveHint" timestamp="1598832999276">
       <screen x="0" y="0" width="1842" height="1080" />
     </state>
-    <state width="418" height="507" key="DebuggerActiveHint/0.0.1842.1080@0.0.1842.1080" timestamp="1598746663580" />
-    <state width="1799" height="463" key="GridCell.Tab.0.bottom" timestamp="1598772168221">
+    <state width="457" height="559" key="DebuggerActiveHint/0.0.1842.1080@0.0.1842.1080" timestamp="1598832999276" />
+    <state width="1799" height="450" key="GridCell.Tab.0.bottom" timestamp="1598833174364">
       <screen x="0" y="0" width="1842" height="1080" />
     </state>
-    <state width="1799" height="463" key="GridCell.Tab.0.bottom/0.0.1842.1080@0.0.1842.1080" timestamp="1598772168221" />
+    <state width="1799" height="450" key="GridCell.Tab.0.bottom/0.0.1842.1080@0.0.1842.1080" timestamp="1598833174364" />
     <state width="833" height="370" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1597382381887" />
     <state width="1877" height="451" key="GridCell.Tab.0.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1590462126636" />
-    <state width="1799" height="463" key="GridCell.Tab.0.center" timestamp="1598772168220">
+    <state width="1799" height="450" key="GridCell.Tab.0.center" timestamp="1598833174364">
       <screen x="0" y="0" width="1842" height="1080" />
     </state>
-    <state width="1799" height="463" key="GridCell.Tab.0.center/0.0.1842.1080@0.0.1842.1080" timestamp="1598772168220" />
+    <state width="1799" height="450" key="GridCell.Tab.0.center/0.0.1842.1080@0.0.1842.1080" timestamp="1598833174364" />
     <state width="833" height="370" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1597382381887" />
     <state width="1877" height="451" key="GridCell.Tab.0.center/0.0.1920.1080@0.0.1920.1080" timestamp="1590462126636" />
-    <state width="1799" height="463" key="GridCell.Tab.0.left" timestamp="1598772168220">
+    <state width="1799" height="450" key="GridCell.Tab.0.left" timestamp="1598833174364">
       <screen x="0" y="0" width="1842" height="1080" />
     </state>
-    <state width="1799" height="463" key="GridCell.Tab.0.left/0.0.1842.1080@0.0.1842.1080" timestamp="1598772168220" />
+    <state width="1799" height="450" key="GridCell.Tab.0.left/0.0.1842.1080@0.0.1842.1080" timestamp="1598833174364" />
     <state width="833" height="370" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1597382381887" />
     <state width="1877" height="451" key="GridCell.Tab.0.left/0.0.1920.1080@0.0.1920.1080" timestamp="1590462126636" />
-    <state width="1799" height="463" key="GridCell.Tab.0.right" timestamp="1598772168221">
+    <state width="1799" height="450" key="GridCell.Tab.0.right" timestamp="1598833174364">
       <screen x="0" y="0" width="1842" height="1080" />
     </state>
-    <state width="1799" height="463" key="GridCell.Tab.0.right/0.0.1842.1080@0.0.1842.1080" timestamp="1598772168221" />
+    <state width="1799" height="450" key="GridCell.Tab.0.right/0.0.1842.1080@0.0.1842.1080" timestamp="1598833174364" />
     <state width="833" height="370" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1597382381887" />
     <state width="1877" height="451" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1590462126636" />
-    <state width="1799" height="450" key="GridCell.Tab.1.bottom" timestamp="1598771264842">
+    <state width="1799" height="450" key="GridCell.Tab.1.bottom" timestamp="1598833175098">
       <screen x="0" y="0" width="1842" height="1080" />
     </state>
-    <state width="1799" height="450" key="GridCell.Tab.1.bottom/0.0.1842.1080@0.0.1842.1080" timestamp="1598771264842" />
+    <state width="1799" height="450" key="GridCell.Tab.1.bottom/0.0.1842.1080@0.0.1842.1080" timestamp="1598833175098" />
     <state width="1356" height="435" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1597378553231" />
     <state width="1877" height="451" key="GridCell.Tab.1.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1590462126636" />
-    <state width="1799" height="450" key="GridCell.Tab.1.center" timestamp="1598771264841">
+    <state width="1799" height="450" key="GridCell.Tab.1.center" timestamp="1598833175097">
       <screen x="0" y="0" width="1842" height="1080" />
     </state>
-    <state width="1799" height="450" key="GridCell.Tab.1.center/0.0.1842.1080@0.0.1842.1080" timestamp="1598771264841" />
+    <state width="1799" height="450" key="GridCell.Tab.1.center/0.0.1842.1080@0.0.1842.1080" timestamp="1598833175097" />
     <state width="1356" height="435" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1597378553231" />
     <state width="1877" height="451" key="GridCell.Tab.1.center/0.0.1920.1080@0.0.1920.1080" timestamp="1590462126636" />
-    <state width="1799" height="450" key="GridCell.Tab.1.left" timestamp="1598771264841">
+    <state width="1799" height="450" key="GridCell.Tab.1.left" timestamp="1598833175097">
       <screen x="0" y="0" width="1842" height="1080" />
     </state>
-    <state width="1799" height="450" key="GridCell.Tab.1.left/0.0.1842.1080@0.0.1842.1080" timestamp="1598771264841" />
+    <state width="1799" height="450" key="GridCell.Tab.1.left/0.0.1842.1080@0.0.1842.1080" timestamp="1598833175097" />
     <state width="1356" height="435" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1597378553231" />
     <state width="1877" height="451" key="GridCell.Tab.1.left/0.0.1920.1080@0.0.1920.1080" timestamp="1590462126636" />
-    <state width="1799" height="450" key="GridCell.Tab.1.right" timestamp="1598771264841">
+    <state width="1799" height="450" key="GridCell.Tab.1.right" timestamp="1598833175097">
       <screen x="0" y="0" width="1842" height="1080" />
     </state>
-    <state width="1799" height="450" key="GridCell.Tab.1.right/0.0.1842.1080@0.0.1842.1080" timestamp="1598771264841" />
+    <state width="1799" height="450" key="GridCell.Tab.1.right/0.0.1842.1080@0.0.1842.1080" timestamp="1598833175097" />
     <state width="1356" height="435" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1597378553231" />
     <state width="1877" height="451" key="GridCell.Tab.1.right/0.0.1920.1080@0.0.1920.1080" timestamp="1590462126636" />
     <state x="253" y="351" width="1247" height="708" key="SettingsEditor" timestamp="1597384139732">
@@ -635,8 +634,18 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/Test3D/Functions.java</url>
-          <line>267</line>
+          <line>291</line>
           <option name="timeStamp" value="494" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/Test3D/Functions.java</url>
+          <line>538</line>
+          <option name="timeStamp" value="516" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/Test3D/Functions.java</url>
+          <line>362</line>
+          <option name="timeStamp" value="521" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/ScopingPractice/ScopeCheck.java</url>
@@ -736,6 +745,11 @@
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo typeName="Test3D.Matrix3D" fieldName="matrix" />
+      </pinned-members>
+    </pin-to-top-manager>
     <watches-manager>
       <configuration name="Application">
         <watch expression="digits" />
@@ -748,6 +762,7 @@
         <watch expression="compareInt" />
         <watch expression="iterator.previousIndex()" language="JAVA" />
         <watch expression="vocabulary.get(string)" />
+        <watch expression="composedArray[1]" />
       </configuration>
     </watches-manager>
   </component>

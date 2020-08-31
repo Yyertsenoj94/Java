@@ -1,8 +1,6 @@
 package Test3D;
 
 
-import java.util.Scanner;
-
 public class Matrix3D extends Matrix {
        Window window;
 

@@ -83,7 +83,7 @@ public class VectorTests {
             ryMatrix = Functions.getRotationByAngle(Matrix.AXIS.Y_AXIS, yDegrees);
             rMatrix = Functions.combine3Matrices(rzMatrix, rxMatrix, ryMatrix);
             matrix = Functions.combine3Matrices(sMatrix, rMatrix, tMatrix);
-            p_matrix = Functions.getPerspectiveMatrix(-800);
+            p_matrix = Functions.getPerspectiveMatrix(800);
 
             for(int i = 0; i < vectors.length; i++){
                 vectors[i] = Functions.transformVertex(vectors[i], matrix);
@@ -108,7 +108,7 @@ public class VectorTests {
             }
 
             vectors[4].printVector();
-            Functions.drawVertices(vectors);
+            Functions.drawScaledVertices(vectors);
 
             tMatrix.setToIdentity();
             sMatrix.setToIdentity();
